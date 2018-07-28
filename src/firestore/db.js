@@ -1,12 +1,10 @@
-import {config} from './config';
+import { config } from './config.secrets';
 import firebase from '@firebase/app';
 import '@firebase/firestore';
 
 firebase.initializeApp(config);
 const firestore = firebase.firestore();
-const settings = {timestampsInSnapshots: true};
+const settings = { timestampsInSnapshots: true };
 firestore.settings(settings);
 
 export const db = firebase.firestore();
-
-
