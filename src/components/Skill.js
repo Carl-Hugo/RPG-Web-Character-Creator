@@ -9,9 +9,9 @@ class SkillComponent extends React.Component {
         { code: 'y', category: 'positive' },
         { code: 'g', category: 'positive' },
         { code: 'b', category: 'positive' },
-        { code: 'k', category: 'negative' },
         { code: 'r', category: 'negative' },
         { code: 'p', category: 'negative' },
+        { code: 'k', category: 'negative' },
         { code: 'w', category: 'force' }
     ];
 
