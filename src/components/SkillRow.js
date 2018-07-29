@@ -36,6 +36,13 @@ class SkillRowComponent extends React.Component {
         changeData(newObj, 'masterSkills');
     };
 
+    rollDices = event => {
+        const skill = event.target.getAttribute('skill');
+        const shortAttribute = event.target.getAttribute('short-attribute');
+        const skillDices = event.target.getAttribute('dices');
+        console.info(skill, shortAttribute, skillDices);
+    };
+
     shortCharacteristics = () => {
         const { skillKey, skills } = this.props;
         switch (skills[skillKey].characteristic) {
@@ -114,7 +121,17 @@ class SkillRowComponent extends React.Component {
                 <td className="table-dice">
                     <Description text={skillDice[skillKey]} />
                 </td>
-                <td>{diceToBotRoll(skillDice[skillKey])}</td>
+                <td>
+                    <button
+                        type="button"
+                        onClick={this.rollDices}
+                        dices={diceToBotRoll(skillDice[skillKey])}
+                        skill={skill.name}
+                        short-attribute={this.shortCharacteristics()}
+                    >
+                        Roll
+                    </button>
+                </td>
             </tr>
         );
     }
