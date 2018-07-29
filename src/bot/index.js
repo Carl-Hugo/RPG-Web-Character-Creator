@@ -9,17 +9,16 @@ class MyDiscordBot {
             channel.send('<@' + userId + '> ' + message);
         });
     };
-    rollSkill = function(userId, channelId, skill, shortAttribute, dices) {
-        this.enforceClient().then(s => {
+    rollSkill = function(userId, channelId, characterName, skill, shortAttribute, dices) {
+        this.enforceClient().then(() => {
             const channel = this.client.channels.get(channelId);
-            channel.send(`<@${userId}> rolls **${skill} (${shortAttribute})**:`);
-            channel.send(dices);
+            channel.send(`<@${userId}>'s **${characterName}** rolls **${skill} (${shortAttribute})**:`);
+            channel.send(`!roll ${dices}`);
         });
     };
     enforceClient = function() {
-        if (this.client) return;
+        if (this.client) return Promise.resolve();
         this.client = new Client();
-        console.log(config);
         return this.client.login(config.auth.token);
     };
 }

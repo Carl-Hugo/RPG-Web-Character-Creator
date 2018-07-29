@@ -24,9 +24,8 @@ class SkillRowComponent extends React.Component {
         const skill = event.target.getAttribute('skill');
         const shortAttribute = event.target.getAttribute('short-attribute');
         const skillDices = event.target.getAttribute('dices');
-        console.info(skill, shortAttribute, skillDices, this.props);
-        //bot.sendMessage(this.props.description.discordPlayerId, this.props.description.discordChannelId, `${skill} (${shortAttribute}): $(skillDices)`);
-        bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, skill, shortAttribute, skillDices);
+        //bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, this.props.description.name, skill, shortAttribute, skillDices);
+        bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, this.props.description.playerName, skill, shortAttribute, skillDices);
     };
 
     shortCharacteristics = () => {
@@ -87,15 +86,15 @@ class SkillRowComponent extends React.Component {
     }
 }
 
-var tags = [{ full: '[yellow]', abbr: 'y' }, { full: '[green]', abbr: 'g' }, { full: ' ', abbr: '' }];
+const tags = [{ full: '[yellow]', abbr: 'y' }, { full: '[green]', abbr: 'g' }, { full: ' ', abbr: '' }];
 function diceToBotRoll(input) {
-    var result = input;
+    let result = input;
     tags.forEach(tag => {
         do {
             result = result.replace(tag.full, tag.abbr);
         } while (result.indexOf(tag.full) > -1);
     });
-    return '!roll ' + result;
+    return result;
 }
 
 function mapStateToProps(state) {
