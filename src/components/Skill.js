@@ -23,11 +23,26 @@ class SkillComponent extends React.Component {
                 </Row>
                 <hr />
                 <Row>
-                    <Col>{this.dices.filter(dice => dice.category == 'positive').map((dice, index) => <AdditionalDice diceCode={dice.code} />)}</Col>
-                    <Col>{this.dices.filter(dice => dice.category == 'negative').map((dice, index) => <AdditionalDice diceCode={dice.code} />)}</Col>
+                    {this.dices.filter(dice => dice.category == 'positive').map((dice, index) => (
+                        <Col>
+                            <AdditionalDice diceCode={dice.code} />
+                        </Col>
+                    ))}
                 </Row>
                 <Row>
-                    <Col>{this.dices.filter(dice => dice.category == 'force').map((dice, index) => <AdditionalDice diceCode={dice.code} />)}</Col>
+                    {this.dices.filter(dice => dice.category == 'negative').map((dice, index) => (
+                        <Col>
+                            <AdditionalDice diceCode={dice.code} />
+                        </Col>
+                    ))}
+                </Row>
+                <Row>
+                    {this.dices.filter(dice => dice.category == 'force').map((dice, index) => (
+                        <Col>
+                            <AdditionalDice diceCode={dice.code} />
+                        </Col>
+                    ))}
+                    <Col />
                     <Col />
                 </Row>
                 <Row className="justify-content-end">
