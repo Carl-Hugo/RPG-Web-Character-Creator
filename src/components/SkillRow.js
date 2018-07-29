@@ -5,6 +5,7 @@ import { changeData } from '../actions';
 import { archetypeSkillRank, careerCheck, skillDice, skillRanks } from '../selectors';
 import { Description } from './index';
 import { bot } from '../bot/index';
+import { Button } from 'reactstrap';
 
 class SkillRowComponent extends React.Component {
     handleRankChange = event => {
@@ -20,12 +21,11 @@ class SkillRowComponent extends React.Component {
         changeData(newObj, 'masterSkills');
     };
 
-    rollDices = event => {
+    rollDices = (event, additionalDices) => {
         const skill = event.target.getAttribute('skill');
         const shortAttribute = event.target.getAttribute('short-attribute');
         const skillDices = event.target.getAttribute('dices');
-        //bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, this.props.description.name, skill, shortAttribute, skillDices);
-        bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, this.props.description.playerName, skill, shortAttribute, skillDices);
+        bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, this.props.description.playerName, skill, shortAttribute, skillDices, additionalDices);
     };
 
     shortCharacteristics = () => {
@@ -77,9 +77,15 @@ class SkillRowComponent extends React.Component {
                     <Description text={skillDice[skillKey]} />
                 </td>
                 <td>
-                    <button type="button" onClick={this.rollDices} dices={diceToBotRoll(skillDice[skillKey])} skill={skill.name} short-attribute={this.shortCharacteristics()}>
+                    <Button
+                        type="button"
+                        onClick={event => this.rollDices(event, this.props.additionalDices)}
+                        dices={diceToBotRoll(skillDice[skillKey])}
+                        skill={skill.name}
+                        short-attribute={this.shortCharacteristics()}
+                    >
                         Roll
-                    </button>
+                    </Button>
                 </td>
             </tr>
         );
@@ -109,7 +115,8 @@ function mapStateToProps(state) {
         skillRanks: skillRanks(state),
         archetypeSkillRank: archetypeSkillRank(state),
         careerCheck: careerCheck(state),
-        description: state.description
+        description: state.description,
+        additionalDices: state.additionalDices
     };
 }
 

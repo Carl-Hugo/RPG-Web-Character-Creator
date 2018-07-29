@@ -42,3 +42,23 @@ export const printContent = (
     -Sky`}
     </h1>
 );
+
+export const additionalDices = {
+    y: 0,
+    g: 0,
+    b: 0,
+    k: 0,
+    r: 0,
+    p: 0,
+    w: 0
+};
+
+/*
+{ displayName: 'Yellow/Proficiency', code: 'y', category: 'positive' },
+{ displayName: 'Green/Ability', code: 'g', category: 'positive' },
+{ displayName: 'Blue/Boost', code: 'b', category: 'positive' },
+{ displayName: 'Black/Setback', code: 'k', category: 'negative' },
+{ displayName: 'Red/Challenge', code: 'r', category: 'negative' },
+{ displayName: 'Purple/Difficulty', code: 'p', category: 'negative' },
+{ displayName: 'White/Force', code: 'w', category: 'force' }
+*/
