@@ -28,6 +28,7 @@
     "clone": "^2.1.1",
     "core-js": "^2.5.7",
     "deepmerge": "^2.1.1",
+    "discord.js": "^11.3.2",
     "firebase": "^5.2.0",
     "keymaster": "^1.6.2",
     "lodash-es": "^4.17.10",
@@ -57,6 +58,7 @@
   },
   "devDependencies": {
     "css-loader": "^0.28.11",
+    "merge-config": "^2.0.0",
     "style-loader": "^0.21.0"
   }
 }

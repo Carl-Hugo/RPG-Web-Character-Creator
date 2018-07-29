@@ -2,37 +2,21 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { changeData } from '../actions';
-import {
-    archetypeSkillRank,
-    careerCheck,
-    skillDice,
-    skillRanks
-} from '../selectors';
+import { archetypeSkillRank, careerCheck, skillDice, skillRanks } from '../selectors';
 import { Description } from './index';
+import { bot } from '../bot/index';
 
 class SkillRowComponent extends React.Component {
     handleRankChange = event => {
-        const {
-            masterSkills,
-            skillKey,
-            changeData,
-            careerSkillsRank,
-            archetypeSkillRank,
-            careerCheck
-        } = this.props;
+        const { masterSkills, skillKey, changeData, careerSkillsRank, archetypeSkillRank, careerCheck } = this.props;
         let newObj = { ...masterSkills };
         let rankType = careerCheck[skillKey] ? 'careerRank' : 'rank';
         if (!newObj[skillKey]) newObj[skillKey] = {};
         newObj[skillKey][rankType] =
             +event.target.value -
             (careerSkillsRank.includes(skillKey) ? 1 : 0) -
-            (archetypeSkillRank[skillKey]
-                ? archetypeSkillRank[skillKey].rank
-                : 0) -
-            (careerCheck[skillKey] &&
-            (masterSkills[skillKey] ? masterSkills[skillKey].rank > 0 : false)
-                ? careerCheck[skillKey]
-                : 0);
+            (archetypeSkillRank[skillKey] ? archetypeSkillRank[skillKey].rank : 0) -
+            (careerCheck[skillKey] && (masterSkills[skillKey] ? masterSkills[skillKey].rank > 0 : false) ? careerCheck[skillKey] : 0);
         changeData(newObj, 'masterSkills');
     };
 
@@ -40,7 +24,9 @@ class SkillRowComponent extends React.Component {
         const skill = event.target.getAttribute('skill');
         const shortAttribute = event.target.getAttribute('short-attribute');
         const skillDices = event.target.getAttribute('dices');
-        console.info(skill, shortAttribute, skillDices);
+        console.info(skill, shortAttribute, skillDices, this.props);
+        //bot.sendMessage(this.props.description.discordPlayerId, this.props.description.discordChannelId, `${skill} (${shortAttribute}): $(skillDices)`);
+        bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, skill, shortAttribute, skillDices);
     };
 
     shortCharacteristics = () => {
@@ -64,18 +50,7 @@ class SkillRowComponent extends React.Component {
     };
 
     render() {
-        const {
-            archetype,
-            career,
-            masterSkills,
-            skills,
-            skillKey,
-            careerSkillsRank,
-            skillDice,
-            skillRanks,
-            archetypeSkillRank,
-            careerCheck
-        } = this.props;
+        const { archetype, career, masterSkills, skills, skillKey, careerSkillsRank, skillDice, skillRanks, archetypeSkillRank, careerCheck } = this.props;
         const skill = skills[skillKey];
         let ranks = [0, 1, 2, 3, 4, 5];
         if (careerSkillsRank.includes(skillKey)) ranks.shift();
@@ -85,32 +60,13 @@ class SkillRowComponent extends React.Component {
             }
         }
         return (
-            <tr
-                className={
-                    masterSkills[skillKey]
-                        ? masterSkills[skillKey].hide
-                            ? 'row-hide'
-                            : ''
-                        : ''
-                }
-            >
-                <td className="table-name">
-                    {`${skill.name} (${this.shortCharacteristics()})`}
-                </td>
+            <tr className={masterSkills[skillKey] ? (masterSkills[skillKey].hide ? 'row-hide' : '') : ''}>
+                <td className="table-name">{`${skill.name} (${this.shortCharacteristics()})`}</td>
                 <td className="table-career">
-                    <input
-                        type="checkbox"
-                        checked={!!careerCheck[skillKey]}
-                        readOnly
-                    />
+                    <input type="checkbox" checked={!!careerCheck[skillKey]} readOnly />
                 </td>
                 <td>
-                    <select
-                        disabled={!archetype || !career}
-                        value={skillRanks[skillKey]}
-                        onChange={this.handleRankChange}
-                        style={{ margin: '0' }}
-                    >
+                    <select disabled={!archetype || !career} value={skillRanks[skillKey]} onChange={this.handleRankChange} style={{ margin: '0' }}>
                         {ranks.map(key => (
                             <option key={key} value={key}>
                                 {key}
@@ -122,13 +78,7 @@ class SkillRowComponent extends React.Component {
                     <Description text={skillDice[skillKey]} />
                 </td>
                 <td>
-                    <button
-                        type="button"
-                        onClick={this.rollDices}
-                        dices={diceToBotRoll(skillDice[skillKey])}
-                        skill={skill.name}
-                        short-attribute={this.shortCharacteristics()}
-                    >
+                    <button type="button" onClick={this.rollDices} dices={diceToBotRoll(skillDice[skillKey])} skill={skill.name} short-attribute={this.shortCharacteristics()}>
                         Roll
                     </button>
                 </td>
@@ -137,11 +87,7 @@ class SkillRowComponent extends React.Component {
     }
 }
 
-var tags = [
-    { full: '[yellow]', abbr: 'y' },
-    { full: '[green]', abbr: 'g' },
-    { full: ' ', abbr: '' }
-];
+var tags = [{ full: '[yellow]', abbr: 'y' }, { full: '[green]', abbr: 'g' }, { full: ' ', abbr: '' }];
 function diceToBotRoll(input) {
     var result = input;
     tags.forEach(tag => {
@@ -163,7 +109,8 @@ function mapStateToProps(state) {
         skillDice: skillDice(state),
         skillRanks: skillRanks(state),
         archetypeSkillRank: archetypeSkillRank(state),
-        careerCheck: careerCheck(state)
+        careerCheck: careerCheck(state),
+        description: state.description
     };
 }
 
