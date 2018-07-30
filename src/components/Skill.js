@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Col, Row } from 'reactstrap';
 import { CustomSkills, SkillBlock, AdditionalDice } from './index';
+import { bot } from '../bot/index';
 
 class SkillComponent extends React.Component {
     state = { modal: false };
@@ -14,6 +15,10 @@ class SkillComponent extends React.Component {
         { code: 'k', category: 'negative' },
         { code: 'w', category: 'force' }
     ];
+
+    rollDices = (event, additionalDices) => {
+        bot.rollSkill(this.props.description.discordPlayerId, this.props.description.discordChannelId, this.props.description.playerName, 'Custom', false, '', additionalDices);
+    };
 
     render() {
         return (
@@ -42,7 +47,11 @@ class SkillComponent extends React.Component {
                             <AdditionalDice diceCode={dice.code} />
                         </Col>
                     ))}
-                    <Col />
+                    <Col>
+                        <Button type="button" onClick={event => this.rollDices(event, this.props.additionalDices)}>
+                            Custom roll
+                        </Button>
+                    </Col>
                     <Col />
                 </Row>
                 <Row className="justify-content-end">
@@ -65,7 +74,9 @@ class SkillComponent extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        customSkills: state.customSkills
+        customSkills: state.customSkills,
+        description: state.description,
+        additionalDices: state.additionalDices
     };
 }
 

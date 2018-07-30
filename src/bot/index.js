@@ -13,8 +13,13 @@ class MyDiscordBot {
         this.enforceClient().then(() => {
             const channel = this.client.channels.get(channelId);
             const dicesToRoll = computeDices(dices, additionalDices);
-            channel.send(`<@${userId}>'s **${characterName}** rolls **${skill} (${shortAttribute})**:`);
-            channel.send(`!!roll "**${characterName}** rolls **${skill} (${shortAttribute})**" ${dicesToRoll}`);
+            let rollMsg = `**${characterName}** rolls **${skill}`;
+            if (shortAttribute !== false) {
+                rollMsg += ` (${shortAttribute})`;
+            }
+            rollMsg += '**';
+            channel.send(`<@${userId}>'s ${rollMsg}:`);
+            channel.send(`!!roll "${rollMsg}" ${dicesToRoll}`);
         });
     };
     enforceClient = function() {
