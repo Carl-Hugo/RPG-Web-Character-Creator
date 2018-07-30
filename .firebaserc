@@ -1,5 +1,6 @@
 {
   "projects": {
-    "public": "genesysemporium"
+    "public": "SWToon",
+    "default": "swtoon-67940"
   }
 }
