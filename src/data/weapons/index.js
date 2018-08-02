@@ -1,5 +1,5 @@
-import {CRB} from './CRB'
-import {ROT} from './ROT'
+import { CRB } from './CRB';
+import { ROT } from './ROT';
 import merge from 'deepmerge';
 //import { intersection } from 'lodash-es'
 
@@ -33,4 +33,4 @@ let mergedImports = imports.map(weaponData => {
 export const weapons = Object.assign({}, ...mergedImports)
 */
 
-export const weapons = merge.all([CRB, ROT]);
+export const weapons = CRB;
