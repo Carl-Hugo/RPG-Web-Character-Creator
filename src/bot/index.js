@@ -19,7 +19,8 @@ class MyDiscordBot {
             }
             rollMsg += '**';
             channel.send(`<@${userId}>'s ${rollMsg}:`);
-            channel.send(`!!roll "${rollMsg}" ${dicesToRoll}`);
+            //channel.send(`!!roll "${rollMsg}" ${dicesToRoll}`);
+            channel.send(`!!roll ${dicesToRoll}`);
         });
     };
     enforceClient = function() {
