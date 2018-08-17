@@ -14,6 +14,8 @@ class CharacterSelectComponent extends React.Component {
 		archetypeModal: false,
 		careerModal: false,
 		deleteModal: false,
+		discordPlayerId: this.props.description.discordPlayerId,
+        discordChannelId: this.props.description.discordChannelId,
 	};
 
     componentWillReceiveProps(nextProps) {
@@ -60,7 +62,7 @@ class CharacterSelectComponent extends React.Component {
 
 	render() {
 		const {archetype, archetypes, careers, career, characterList, character, changeData, settings} = this.props;
-		const {name, playerName, archetypeModal, careerModal, deleteModal, setting} = this.state;
+		const {name, playerName, archetypeModal, careerModal, deleteModal, setting, discordPlayerId, discordChannelId} = this.state;
 		return (
 			<div className='w-100'>
 				<Row className='justify-content-end'><h5>CHARACTER</h5></Row>
@@ -147,7 +149,29 @@ class CharacterSelectComponent extends React.Component {
 							   onBlur={this.handleBlur}/>
 					</Col>
 				</Row>
-				<hr/>
+				<hr />
+                <Row className="justify-content-end">
+                    <h5>DISCORD</h5>
+                </Row>
+                <hr />
+                <Row className="align-items-center">
+                    <Col sm="4">
+                        <b>Player ID:</b>
+                    </Col>
+                    <Col className="m-auto">
+                        <Input type="text" value={discordPlayerId} maxLength="25" name="discordPlayerId" onChange={this.handleChange} onBlur={this.handleBlur} />
+                    </Col>
+                </Row>
+                <hr />
+                <Row className="align-items-center">
+                    <Col sm="4">
+                        <b>Channel ID:</b>
+                    </Col>
+                    <Col className="m-auto">
+                        <Input type="text" value={discordChannelId} maxLength="25" name="discordChannelId" onChange={this.handleChange} onBlur={this.handleBlur} />
+                    </Col>
+                </Row>
+				<hr />
 				<Archetype modal={archetypeModal} handleClose={() => this.setState({archetypeModal: false})}/>
 				<Career modal={careerModal} handleClose={() => this.setState({careerModal: false})}/>
 				<ModalDeleteConfirm deleteModal={deleteModal}
