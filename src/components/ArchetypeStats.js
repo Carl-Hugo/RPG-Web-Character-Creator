@@ -1,14 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {Col, Input, Row} from 'reactstrap';
-import {ArchetypeSkills, Description} from './index';
+import {bindActionCreators} from 'redux';
 import {changeData} from "../actions";
+import {ArchetypeSkills, Description} from './index';
+
+const clone = require('clone');
+
 
 class ArchetypeStatsComponent extends React.Component {
 
 	handleSelect = (event) => {
-		let obj = {...this.props.misc};
+		let obj = clone(this.props.misc);
 		obj.archetypeTalents = event.target.value;
 		this.props.changeData(obj, 'misc');
 	};
@@ -55,7 +58,8 @@ class ArchetypeStatsComponent extends React.Component {
 					<Col sm='5'><b>Starting Talents:</b></Col>
 				</Row>
 				{masterArchetype.talents &&
-				masterArchetype.talents.map((talent) =>
+				masterArchetype.talents.map(talent =>
+					archetypeTalents[talent] &&
 					<div key={talent}>
 						<Row className='ml-4'>
 							<Col sm='5'><b>{archetypeTalents[talent].name}:</b></Col>
@@ -75,8 +79,6 @@ class ArchetypeStatsComponent extends React.Component {
 									)}
 								</Input>
 							</Col>
-
-
 						</Row>
 						}
 					</div>
@@ -100,17 +102,15 @@ class ArchetypeStatsComponent extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
 	return {
 		archetype: state.archetype,
 		archetypes: state.archetypes,
 		archetypeTalents: state.archetypeTalents,
 		misc: state.misc,
 	};
-}
+};
 
-function matchDispatchToProps(dispatch) {
-	return bindActionCreators({changeData}, dispatch);
-}
+const matchDispatchToProps = dispatch => bindActionCreators({changeData}, dispatch);
 
 export const ArchetypeStats = connect(mapStateToProps, matchDispatchToProps)(ArchetypeStatsComponent);

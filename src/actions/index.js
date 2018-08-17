@@ -1,5 +1,5 @@
-import {db} from '../firestore/db';
 import {customDataTypes, dataTypes} from '../data';
+import {db} from '../firestore/db';
 
 export const changeData = (data, type, merge = true) => {
 	return (dispatch, getState) => {
@@ -7,7 +7,6 @@ export const changeData = (data, type, merge = true) => {
 		const dbRef = db.doc(`users/${user}/data/characters/${character}/${type}/`);
 		dbRef.set({data}, {merge: merge});
 		dispatch({type: `${type}_Changed`, payload: data});
-
 	}
 };
 
@@ -37,7 +36,7 @@ export const loadData = () => {
 	}
 };
 
-export const loadCustomData = (setting) => {
+export const loadCustomData = (setting = 'All') => {
 	return (dispatch, getState) => {
 		dispatch({type: 'loadingCustomData_Changed', payload: true});
 		const {user} = getState();

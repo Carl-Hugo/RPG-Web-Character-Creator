@@ -60,7 +60,7 @@ class MotivationBlockComponent extends React.Component {
                         <InputGroupAddon className='m-auto' addonType='prepend'>{type}:</InputGroupAddon>
                         <Input type='select' onChange={this.handleSelect} style={{marginLeft: '1vw'}} value={name}>
                             <option value=''/>
-                            {motivations[type] && Object.keys(motivations[type]).map(key =>
+							{motivations[type] && Object.keys(motivations[type]).sort().map(key =>
                                 <option key={key} value={key}>{key}</option>
                             )}
                         </Input>
@@ -85,15 +85,13 @@ class MotivationBlockComponent extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
 	return {
 		masterMotivations: state.masterMotivations,
 		motivations: state.motivations,
 	};
-}
+};
 
-function matchDispatchToProps(dispatch) {
-	return bindActionCreators({changeData}, dispatch);
-}
+const matchDispatchToProps = dispatch => bindActionCreators({changeData}, dispatch);
 
 export const MotivationBlock = connect(mapStateToProps, matchDispatchToProps)(MotivationBlockComponent);

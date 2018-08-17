@@ -11,11 +11,11 @@ class Component extends React.Component {
 				<Row className='justify-content-end'><h5>MOTIVATIONS</h5></Row>
 				<hr/>
 				<Row className='justify-content-center'>
-					{Object.keys(masterMotivations).map(type => {
+					{['Strength', 'Flaw', 'Desire', 'Fear'].map(type => {
 							return (
 								<Card className='m-2' key={type} style={{width: '45%', height: '300px'}}>
 									<CardHeader>
-										<b>{`${type}: ${masterMotivations[type].key ? masterMotivations[type].key : ''}`}</b>
+										<b>{`${type}: ${masterMotivations[type] ? (masterMotivations[type].key ? masterMotivations[type].key : '') : ''}`}</b>
 									</CardHeader>
 									<CardBody>
 										{masterMotivations[type] ? masterMotivations[type].description : ''}
@@ -30,11 +30,11 @@ class Component extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
 	return {
 		masterMotivations: state.masterMotivations,
 		motivations: state.motivations,
 	};
-}
+};
 
 export const Motivations = connect(mapStateToProps)(Component);

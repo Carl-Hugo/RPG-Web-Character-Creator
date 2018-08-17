@@ -29,7 +29,7 @@ class TalentListComponent extends React.Component {
 							<td/>
 							<td className='text-center'>{archetypeTalents[key].activation ? 'Active' : 'Passive'}</td>
 							<td className='text-center'>{archetypeTalents[key].turn}</td>
-							<td><Description text={archetypeTalents[key].description}/></td>
+							<td><Description text={archetypeTalents[key].description ? archetypeTalents[key].description : ''}/></td>
 						</tr>
 					)}
 					{misc &&
@@ -60,7 +60,7 @@ class TalentListComponent extends React.Component {
 	};
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
 	return {
 		talents: state.talents,
 		archetype: state.archetype,
@@ -69,6 +69,6 @@ function mapStateToProps(state) {
 		misc: state.misc,
 		talentCount: talentCount(state),
 	};
-}
+};
 
 export const TalentList = connect(mapStateToProps)(TalentListComponent);

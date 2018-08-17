@@ -103,7 +103,7 @@ function diceToBotRoll(input) {
     return result;
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
     return {
         archetype: state.archetype,
         masterSkills: state.masterSkills,
@@ -120,9 +120,7 @@ function mapStateToProps(state) {
     };
 }
 
-function matchDispatchToProps(dispatch) {
-    return bindActionCreators({ changeData }, dispatch);
-}
+const matchDispatchToProps = dispatch => bindActionCreators({changeData}, dispatch);
 
 export const SkillRow = connect(
     mapStateToProps,

@@ -5,82 +5,84 @@ export class Description extends React.Component {
 	checkText = () => {
 		if (this.props.text === null || this.props.text === undefined) return '';
 		let text = this.props.text.split(' ');
-		let newString = [];
+		let array = [];
 		text.forEach(word => {
 			switch (true) {
 				case word.includes('CRB'):
-					newString.push(`<a href="http://www.drivethrurpg.com/product/228813/Genesys-Core-Rulebook?affiliate_id=1131280" target="_blank" rel="noopener noreferrer">${word}</a> `);
+					array.push(`<a href="http://www.drivethrurpg.com/product/228813/Genesys-Core-Rulebook?affiliate_id=1131280" target="_blank" rel="noopener noreferrer">${word}</a>`);
 					break;
 				case word.includes('ROT'):
-					newString.push(`<a href="http://www.drivethrurpg.com/product/239561/Realms-of-Terrinoth?affiliate_id=1131280" target="_blank" rel="noopener noreferrer">${word}</a> `);
+					array.push(`<a href="http://www.drivethrurpg.com/product/239561/Realms-of-Terrinoth?affiliate_id=1131280" target="_blank" rel="noopener noreferrer">${word}</a>`);
 					break;
-				case word === '[blue]':
-				case word === '[boost]':
-					newString.push('<i class="ffi ffi-d6 ffi-border ffi-grpg-boost-color"></i>');
+				case word.includes('[blue]'):
+				case word.includes('[boost]'):
+					array.push('<i class="ffi ffi-d6 ffi-border ffi-grpg-boost-color"></i>');
 					break;
-				case word === '[green]':
-				case word === '[ability]':
-					newString.push('<i class="ffi  ffi-d8 ffi-border ffi-grpg-ability-color"></i>');
+				case word.includes('[green]'):
+				case word.includes('[ability]'):
+					array.push('<i class="ffi  ffi-d8 ffi-border ffi-grpg-ability-color"></i>');
 					break;
-				case word === '[yellow]':
-				case word === '[proficiency]':
-					newString.push('<i class="ffi ffi-d12 ffi-border ffi-grpg-proficiency-color"></i>');
+				case word.includes('[yellow]'):
+				case word.includes('[proficiency]'):
+					array.push('<i class="ffi ffi-d12 ffi-border ffi-grpg-proficiency-color"></i>');
 					break;
-				case word === '[black]':
-				case word === '[setback]':
-					newString.push('<i class="ffi ffi-d6 ffi-border ffi-grpg-setback-color"></i>');
+				case word.includes('[black]'):
+				case word.includes('[setback]'):
+					array.push('<i class="ffi ffi-d6 ffi-border ffi-grpg-setback-color"></i>');
 					break;
-				case word === '[purple]':
-				case word === '[difficulty]':
-					newString.push('<i class="ffi ffi-d8 ffi-border ffi-grpg-difficulty-color"></i>');
+				case word.includes('[purple]'):
+				case word.includes('[difficulty]'):
+					array.push('<i class="ffi ffi-d8 ffi-border ffi-grpg-difficulty-color"></i>');
 					break;
-				case word === '[red]':
-				case word === '[challenge]':
-					newString.push('<i class="ffi ffi-d12 ffi-border ffi-grpg-challenge-color"></i>');
+				case word.includes('[red]'):
+				case word.includes('[challenge]'):
+					array.push('<i class="ffi ffi-d12 ffi-border ffi-grpg-challenge-color"></i>');
 					break;
-				case word === '[white]':
-					newString.push('<i class="ffi ffi-d12 ffi-border"></i>');
+				case word.includes('[white]'):
+					array.push('<i class="ffi ffi-d12 ffi-border"></i>');
 					break;
-				case word === '[advantage]':
-				case word === '[adv]':
-					newString.push('<i class="ffi ffi-grpg-advantage"></i>');
+				case word.includes('[advantage]'):
+				case word.includes('[adv]'):
+					array.push('<i class="ffi ffi-grpg-advantage"></i>');
 					break;
-				case word === '[success]':
-				case word === '[suc]':
-					newString.push('<i class="ffi ffi-grpg-success"></i>');
+				case word.includes('[success]'):
+				case word.includes('[suc]'):
+					array.push('<i class="ffi ffi-grpg-success"></i>');
 					break;
-				case word === '[triumph]':
-				case word === '[tri]':
-					newString.push('<i class="ffi ffi-grpg-triumph"></i>');
+				case word.includes('[triumph]'):
+				case word.includes('[tri]'):
+					array.push('<i class="ffi ffi-grpg-triumph"></i>');
 					break;
-				case word === '[threat]':
-				case word === '[thr]':
-					newString.push('<i class="ffi ffi-grpg-threat"></i>');
+				case word.includes('[threat]'):
+				case word.includes('[thr]'):
+					array.push('<i class="ffi ffi-grpg-threat"></i>');
 					break;
-				case word === '[failure]':
-				case word === '[fail]':
-					newString.push('<i class="ffi ffi-grpg-failure"></i>');
+				case word.includes('[failure]'):
+				case word.includes('[fail]'):
+					array.push('<i class="ffi ffi-grpg-failure"></i>');
 					break;
-				case word === '[despair]':
-				case word === '[des]':
-					newString.push('<i class="ffi ffi-grpg-despair"></i>');
+				case word.includes('[despair]'):
+				case word.includes('[des]'):
+					array.push('<i class="ffi ffi-grpg-despair"></i>');
 					break;
-				case word === '[rmsetback]':
-				case word === '[rmblack]':
-					newString.push(`<b>(-</b><i class="ffi ffi-d6 ffi-border ffi-grpg-setback-color"></i><b>)</b>`);
+				case word.includes('[rmsetback]'):
+				case word.includes('[rmblack]'):
+					array.push(`<b>(-</b><i class="ffi ffi-d6 ffi-border ffi-grpg-setback-color"></i><b>)</b>`);
 					break;
 				default:
-					newString.push(`${word} `);
+					array.push(`${word}`);
 					break;
 			}
 		});
-
-		return {__html: newString.join('')};
+		let final = '';
+		array.forEach((word, index) => {
+			if ((word.includes('ffi') && (array[index + 1] && array[index + 1].includes('ffi'))) || array.length === index + 1) final += word;
+			else final += `${word} `;
+		});
+		return {__html: final};
 	};
 
 	render() {
-		return <div className='description' dangerouslySetInnerHTML={this.checkText()}
-					style={{margin: '0'}}/>
-
+		return <div className='description m-auto' dangerouslySetInnerHTML={this.checkText()}/>
 	}
 }

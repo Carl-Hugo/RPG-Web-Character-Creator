@@ -1,10 +1,10 @@
 import React from 'react';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {Button, Col, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row} from 'reactstrap';
+import {bindActionCreators} from 'redux';
 import {changeData} from '../actions';
 import {maxCareerSkills} from '../selectors';
 import {Description} from './index';
-import {Button, Col, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row} from 'reactstrap';
 
 class CareerComponent extends React.Component {
 
@@ -48,9 +48,10 @@ class CareerComponent extends React.Component {
 						<div className='px-3'>
 							<Row>Select {this.props.maxCareerSkills} skills to start with 1 free rank</Row>
 							{masterCareer.skills.sort().map(skill =>
-								<Row key={skill} className='ml-3'>
-									<Label>
+								<Row key={skill} className='ml-3 align-items-center'>
+									<Label className='my-1'>
 										<Input type='checkbox' name={skill}
+											   className='my-2'
 											   checked={careerSkillsRank.includes(skill)}
 											   onChange={this.handleCheck}/>{skills[skill] ? skills[skill].name : ''}
 									</Label>
@@ -95,7 +96,7 @@ class CareerComponent extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
 	return {
 		career: state.career,
 		careerSkillsRank: state.careerSkillsRank,
@@ -103,10 +104,8 @@ function mapStateToProps(state) {
 		skills: state.skills,
 		maxCareerSkills: maxCareerSkills(state),
 	};
-}
+};
 
-function matchDispatchToProps(dispatch) {
-	return bindActionCreators({changeData}, dispatch);
-}
+const matchDispatchToProps = dispatch => bindActionCreators({changeData}, dispatch);
 
 export const Career = connect(mapStateToProps, matchDispatchToProps)(CareerComponent);

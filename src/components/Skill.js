@@ -61,10 +61,22 @@ class SkillComponent extends React.Component {
                     </Button>
                 </Row>
                 <hr />
-                <Row>
-                    <Col>{['General', 'Magic'].map((type, index) => <SkillBlock key={type} type={type} index={index} />)}</Col>
-                    <Col>{['Combat', 'Social', 'Knowledge'].map((type, index) => <SkillBlock key={type} type={type} index={index} />)}</Col>
-                </Row>
+				<Row>
+					<Col>
+						{['General', 'Magic'].map((type, index) =>
+							<SkillBlock key={type}
+										type={type}
+										index={index}/>
+						)}
+					</Col>
+					<Col>
+						{['Combat', 'Social', 'Knowledge'].map((type, index) =>
+							<SkillBlock key={type}
+										type={type}
+										index={index}/>
+						)}
+					</Col>
+				</Row>
 
                 <CustomSkills modal={this.state.modal} handleClose={() => this.setState({ modal: false })} />
             </div>

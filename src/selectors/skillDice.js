@@ -17,6 +17,29 @@ const calcSkillDice = createSelector(
 		Object.keys(skills).forEach(key => {
 			let characteristic = characteristics[skills[key].characteristic];
 			let rank = skillRanks[key];
+			//add equipment modifier to skill rank
+			Object.keys(equipmentStats).forEach(key2 => {
+				let item = equipmentStats[key2];
+				if (item.modifier) {
+					if (item.carried) {
+						if (item.equipped || item.type !== 'armor') {
+							let list = item.modifier;
+							if (list) {
+								Object.keys(list).forEach(modifier => {
+									if (key === modifier) {
+										list[modifier].forEach(text => {
+											if (text.includes('Free Rank')) {
+												rank += +text.replace(/\D/g, '')
+											}
+										})
+									}
+
+								});
+							}
+						}
+					}
+				}
+			});
 			let dice, upgrade = 0;
 			let text = '';
 			if (characteristic >= rank) {
@@ -36,8 +59,9 @@ const calcSkillDice = createSelector(
 				if (talents[talent]) {
 					if (talents[talent].modifier) {
 						if (talents[talent].modifier[key]) {
-							for (let j = 0; j < talentCount[talent]; j++) {
-								text += talents[talent].modifier[key] + ' ';
+							for (let i = 0; i < talentCount[talent]; i++) {
+								// eslint-disable-next-line
+								talents[talent].modifier[key].forEach(die => text += `${die} `);
 							}
 						}
 					}
@@ -48,28 +72,38 @@ const calcSkillDice = createSelector(
 			if (archetypes[archetype]) {
 				if (archetypes[archetype].talents) {
 					archetypes[archetype].talents.forEach(key2 => {
-						if (archetypeTalents[key2].modifier) {
-							if (archetypeTalents[key2].modifier[key] && !Number.isInteger(archetypeTalents[key2].modifier[key])) text += archetypeTalents[key2].modifier[key] + ' ';
+						if (archetypeTalents[key2]) {
+							if (archetypeTalents[key2].modifier) {
+								if (archetypeTalents[key2].modifier[key] && !Number.isInteger(archetypeTalents[key2].modifier[key])) text += archetypeTalents[key2].modifier[key] + ' ';
+							}
 						}
 					});
 				}
 			}
-
-			//get dice from equipment
-			Object.keys(equipmentStats).forEach(key2 => {
-				let item = equipmentStats[key2];
-				if (item.equipped) {
-					let list = item.modifier;
-					if (list) {
-						Object.keys(list).forEach(modifier => {
-							if (modifier === key) text += list[modifier] + ' ';
-						});
-					}
-				}
-			});
-
 			skillDice[key] = text;
 		});
+
+		//get dice from equipment
+		Object.keys(equipmentStats).forEach(key => {
+			let item = equipmentStats[key];
+			if (item.modifier) {
+				if (item.carried) {
+					if (item.equipped || item.type !== 'armor') {
+						let list = item.modifier;
+						if (list) {
+							Object.keys(list).forEach(modifier => {
+								if (Object.keys(skills).includes(modifier) && Array.isArray(list[modifier])) {
+									list[modifier].forEach(add => {
+										if (!add.includes('Free Rank')) skillDice[modifier] += add + ' ';
+									})
+								}
+							});
+						}
+					}
+				}
+			}
+		});
+
 		return skillDice;
 	}
 );
