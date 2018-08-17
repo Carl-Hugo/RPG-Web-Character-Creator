@@ -19,7 +19,7 @@ class AdditionalDiceComponent extends React.Component {
 
     handleChange = event => {
         let obj = clone(this.state.additionalDices);
-        obj[event.target.name] = parseInt(event.target.value);
+        obj[event.target.name] = parseInt(event.target.value, 10);
         this.setState({ additionalDices: obj });
         event.preventDefault();
     };
@@ -34,7 +34,7 @@ class AdditionalDiceComponent extends React.Component {
 
     render() {
         const { diceCode } = this.props;
-        const label = this.dices.filter(d => d.code == diceCode)[0].displayName;
+        const label = this.dices.filter(d => d.code === diceCode)[0].displayName;
         return (
             <Row>
                 <Col>{label}: </Col>

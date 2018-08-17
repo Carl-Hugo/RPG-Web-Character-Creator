@@ -1,4 +1,5 @@
 export {About} from './About';
+export { AdditionalDice } from './AdditionalDice';
 export {App} from './App';
 export {ArchetypeSkills} from './ArchetypeSkills';
 export {ArchetypeStats} from './ArchetypeStats';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Col, Row } from 'reactstrap';
-import { CustomSkills, SkillBlock, AdditionalDice } from './index';
+import { SkillBlock, AdditionalDice } from './index';
 import { bot } from '../bot/index';
 
 class SkillComponent extends React.Component {
@@ -28,21 +28,21 @@ class SkillComponent extends React.Component {
                 </Row>
                 <hr />
                 <Row>
-                    {this.dices.filter(dice => dice.category == 'positive').map((dice, index) => (
+                    {this.dices.filter(dice => dice.category === 'positive').map((dice, index) => (
                         <Col>
                             <AdditionalDice diceCode={dice.code} />
                         </Col>
                     ))}
                 </Row>
                 <Row>
-                    {this.dices.filter(dice => dice.category == 'negative').map((dice, index) => (
+                    {this.dices.filter(dice => dice.category === 'negative').map((dice, index) => (
                         <Col>
                             <AdditionalDice diceCode={dice.code} />
                         </Col>
                     ))}
                 </Row>
                 <Row>
-                    {this.dices.filter(dice => dice.category == 'force').map((dice, index) => (
+                    {this.dices.filter(dice => dice.category === 'force').map((dice, index) => (
                         <Col>
                             <AdditionalDice diceCode={dice.code} />
                         </Col>
@@ -54,13 +54,8 @@ class SkillComponent extends React.Component {
                     </Col>
                     <Col />
                 </Row>
-                <Row className="justify-content-end">
-                    <h5>SKILLS</h5>{' '}
-                    <Button color="link" className="noUnderLine p-0 mt-1" onClick={() => this.setState({ modal: true })}>
-                        ⚙
-                    </Button>
-                </Row>
-                <hr />
+				<Row className='justify-content-end'><h5>SKILLS</h5></Row>
+				<hr/>
 				<Row>
 					<Col>
 						{['General', 'Magic'].map((type, index) =>
@@ -77,8 +72,6 @@ class SkillComponent extends React.Component {
 						)}
 					</Col>
 				</Row>
-
-                <CustomSkills modal={this.state.modal} handleClose={() => this.setState({ modal: false })} />
             </div>
         );
     }
