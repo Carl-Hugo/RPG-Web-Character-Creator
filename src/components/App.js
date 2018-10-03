@@ -15,13 +15,24 @@ class AppComponent extends React.Component {
 	componentWillMount() {
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
-				this.props.changeUser(user.uid);
+				const imporsonatedId = this.getCustomUserId();
+				if(imporsonatedId){
+					this.props.changeUser(imporsonatedId);
+				} else {
+					this.props.changeUser(user.uid);
+				}
 				this.setState({loading: false});
 			}
 			else this.setState({loading: false});
 		});
 	}
-
+	getCustomUserId() {
+		const rawQueryString = window.location.search;
+		if (rawQueryString && rawQueryString.length > 1) {
+			const queryString = new URLSearchParams(rawQueryString.substring(1));
+			return queryString.get("userId");
+		}
+	}
 	componentWillReceiveProps(nextProps) {
 		const {loadCharacterList, loadCustomData, user} = this.props;
 		if (nextProps.user && user !== nextProps.user) {
