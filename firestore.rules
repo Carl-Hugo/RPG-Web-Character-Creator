@@ -3,11 +3,25 @@ service cloud.firestore {
     // Make sure the uid of the requesting user matches name of the user
     // document. The wildcard expression {userId} makes the userId variable
     // available in rules.
+    
+    function selfOrGm(userId) {
+      return isSelf(userId) || isGm(userId);
+    }
+    
+    function isSelf(userId){
+    	return request.auth.uid != null && request.auth.uid == userId;
+    }
+    
+    function isGm(userId){
+    	return request.auth.uid != null && 
+      	get(/databases/$(database)/documents/users/$(userId)).data.gm == request.auth.uid;
+    }
+    
     match /users/{userId}/data/{document=**}  {
-      allow read, write: if request.auth.uid == userId;
+    	allow read, write: if selfOrGm(userId);
     }
     match /users/{userId}/customData/{document=**}  {
-      allow read, write: if request.auth.uid == userId;
+    	allow read, write: if selfOrGm(userId);
     }
   }
 }
