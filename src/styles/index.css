@@ -11,8 +11,9 @@ body {
 	--boost: rgb(118, 205, 219);
 	--ability: rgb(70, 172, 78);
 	--proficiency: rgb(254, 240, 53);
+	--orangeFade: rgba(245, 142, 32, 0.2);
+	--lightblueFade: rgba(181, 224, 232, 0.2);
 	font-family: 'Avenir Next', sans-serif !important;
-	background-image: url('/images/background.png');
 }
 
 hr {
@@ -28,13 +29,16 @@ h5 {
 	margin-top: 0.5rem;
 }
 
+table {
+	vertical-align: middle;
+}
+
 .table th {
-	padding: 0.4rem 0.2rem;
+	padding: 0.4rem;
 }
 
 .table td {
-	padding: 0.4rem 0.2rem;
-	vertical-align: middle;
+	padding: 0.4rem;
 }
 
 thead {
@@ -88,27 +92,11 @@ input[type="number"] {
 }
 
 .textSymbols {
-	height: 20px;
+	vertical-align: middle;
+	height: 1.2rem;
 }
 
-.imageBox {
-	position: relative;
-	text-align: center;
-	color: black;
-	padding: 0;
-	margin: 0.15rem;
-	width: 100px;
-}
-
-.attribute {
-	width: 140px;
-}
-
-.xpBox {
-	width: 140px;
-}
-
-.png {
+.svg {
 	width: 100%;
 }
 
@@ -119,49 +107,105 @@ input[type="number"] {
 	transform: translate(-50%, -50%);
 }
 
-.attributeTitle {
-	position: absolute;
-	color: white;
-	font-size: 12px;
-	top: 17%;
-	left: 55%;
-	transform: translate(-50%, -50%);
+.talentDesc {
+	overflow-y: auto;
+	white-space: pre-line;
+}
+
+.table-dice {
+}
+
+.table-career {
+	text-align: center;
+}
+
+.table-rank {
+	text-align: center;
+}
+
+.table-name {
+	text-align: left;
+}
+
+.row-hide {
+	display: none;
+}
+
+.talentCard {
+	width: 10rem;
+	height: 11rem;
+}
+
+.ffi {
+	vertical-align: middle;
+	font-size: 1.4rem;
+}
+
+.ffi-d6 {
+	letter-spacing: 0;
+}
+
+.ffi-border {
+	-webkit-text-stroke-color: black;
+	-webkit-text-stroke-width: 0.1rem;
+}
+
+.bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+/*CRB Theme*/
+.bg-CRB {
+	background-image: url(../images/CRB/background.png);
+}
+
+.imageBox {
+	position: relative;
+	text-align: center;
+	color: black;
+	padding: 0;
+	margin: 0.15rem;
+	width: 6rem;
+}
+
+.attribute {
+	width: 10rem;
+	height: 5.5rem;
+}
+
+.xpBox {
+	width: 8rem;
 }
 
 .attributeValue {
 	position: absolute;
 	display: inline-flex;
-	font-size: 20px;
+	font-size: 1.5rem;
 	font-weight: 600;
 	top: 51%;
-	left: 60%;
+	left: 58%;
 	transform: translate(-50%, -50%);
 	flex: unset;
 }
 
-.characteristicTitle {
-	position: absolute;
-	font-size: 17px;
-	color: white;
-	font-weight: 600;
-	top: 84%;
-	left: 65%;
-	transform: translate(-50%, -50%);
-}
-
 .characteristicValue {
 	position: absolute;
-	font-size: 40px;
+	font-size: 2.5rem;
 	font-weight: 600;
 	top: 35%;
-	left: 65%;
+	left: 62%;
 	transform: translate(-50%, -50%);
 	flex: unset;
 }
 
 .xpValue {
 	position: absolute;
-	font-size: 40px;
+	font-size: 2rem;
 	font-weight: 600;
 	top: 45%;
 	left: 60%;
@@ -171,101 +215,59 @@ input[type="number"] {
 
 .totalXP {
 	position: fixed;
-	bottom: 5px;
-	left: 5px;
+	bottom: 10px;
+	left: 10px;
 	z-index: 1;
 }
 
 .availableXP {
 	position: fixed;
-	bottom: 5px;
-	right: 5px;
+	bottom: 10px;
+	right: 10px;
 	z-index: 1;
-}
-
-.print-totalXP {
-	display: inline-block;
-	position: relative;
-	bottom: 5px;
-	left: 0;
-}
-
-.print-availableXP {
-	display: inline-block;
-	position: relative;
-	bottom: 5px;
-	right: 0;
-}
-
-.talentDesc {
-	overflow-y: auto;
-	white-space: pre-line;
-}
-
-.table-dice {
-	width: 130px;
-}
-
-.table-career {
-	text-align: center;
-}
-
-.table-name {
-	width: 150px;
-	text-align: left;
-}
-
-.row-hide {
-	display: none;
-}
-
-.talentCard {
-	width: 150px;
-	height: 160px;
-}
-
-.ffi {
-	vertical-align: middle;
-	font-size: 1.4rem;
-	letter-spacing: -3px;
-}
-
-.ffi-d6 {
-	letter-spacing: 0;
-}
-
-.ffi-border {
-	-webkit-text-stroke-color: black;
-	-webkit-text-stroke-width: 2px;
 }
 
 @media only screen
 and (max-width: 480px) {
 
 	.table {
-		font-size: 10px;
+		font-size: 0.7rem;
+	}
+
+	.fontSizeSmall {
+		font-size: 0.5rem;
 	}
 
 	.talentCard {
-		width: 14vw;
+		width: 16vw;
 		height: 12vh;
-		font-size: 0.4rem;
+		font-size: 0.5rem;
 	}
 
 	.ffi {
-		font-size: 0.8rem;
+		font-size: 1rem;
+	}
+
+	.overflowX {
+		overflow-x: scroll;
 	}
 }
 
 @media print {
 	* {
 		-webkit-print-color-adjust: exact;
+		color-adjust: exact;
 	}
 
 	h5 {
 		font-size: 1rem;
 		margin-top: 0.25rem;
 		font-weight: 600;
+	}
+
+	body {
+		--orangeFade: rgb(245, 142, 32);
+		--lightblueFade: rgb(181, 224, 232);
 	}
 
 	.no-break {
@@ -285,13 +287,49 @@ and (max-width: 480px) {
 	}
 
 	.table td {
-		padding: 0.1rem;
-		vertical-align: middle;
-		font-size: 0.6rem;
+		padding: 0 0.2rem;
+	}
+
+	.talentCard {
+		width: 8rem;
+		height: 1rem;
 	}
 
 	.ffi {
-		font-size: 1rem;
+		font-size: 12pt;
 	}
 
+	.ffi-border {
+		-webkit-text-stroke-width: 0.05rem;
+	}
+
+	.table-dice {
+		width: 200px;
+	}
+
+	.table-career {
+		width: 70px;
+	}
+
+	.table-rank {
+		width: 70px;
+	}
+
+	.table-name {
+		width: 250px;
+	}
+
+	.table-skills {
+		font-size: 14pt;
+	}
+
+	.totalXP {
+		display: inline-block;
+		position: relative;
+	}
+
+	.availableXP {
+		display: inline-block;
+		position: relative;
+	}
 }

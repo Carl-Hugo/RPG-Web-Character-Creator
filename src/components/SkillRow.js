@@ -48,33 +48,32 @@ class SkillRowComponent extends React.Component {
         }
     };
 
-    render() {
-        const { archetype, career, masterSkills, skills, skillKey, careerSkillsRank, skillDice, skillRanks, archetypeSkillRank, careerCheck } = this.props;
-        const skill = skills[skillKey];
-        let ranks = [0, 1, 2, 3, 4, 5];
-        if (careerSkillsRank.includes(skillKey)) ranks.shift();
-        if (archetypeSkillRank[skillKey]) {
-            for (let i = 0; archetypeSkillRank[skillKey].rank > i; i++) {
-                ranks.shift();
-            }
-        }
-        return (
-            <tr className={masterSkills[skillKey] ? (masterSkills[skillKey].hide ? 'row-hide' : '') : ''}>
-                <td className="table-name">{`${skill.name} (${this.shortCharacteristics()})`}</td>
-                <td className="table-career">
-                    <input type="checkbox" checked={!!careerCheck[skillKey]} readOnly />
-                </td>
-                <td>
-                    <select disabled={!archetype || !career} value={skillRanks[skillKey]} onChange={this.handleRankChange} style={{ margin: '0' }}>
-                        {ranks.map(key => (
-                            <option key={key} value={key}>
-                                {key}
-                            </option>
-                        ))}
-                    </select>
-                </td>
-                <td className="table-dice">
-                    <Description text={skillDice[skillKey]} />
+	render() {
+		const {archetype, career, masterSkills, skills, skillKey, careerSkillsRank, skillDice, skillRanks, archetypeSkillRank, careerCheck} = this.props;
+		const skill = skills[skillKey];
+		let ranks = [0, 1, 2, 3, 4, 5];
+		if (careerSkillsRank.includes(skillKey)) ranks.shift();
+		if (archetypeSkillRank[skillKey]) {
+			for (let i = 0; archetypeSkillRank[skillKey].rank > i; i++) {
+				ranks.shift();
+			}
+		}
+		return (
+			<tr className={masterSkills[skillKey] ? (masterSkills[skillKey].hide ? 'row-hide' : '') : ''}>
+				<td className='table-name'>
+					{`${skill.name} (${this.shortCharacteristics()})`}
+				</td>
+				<td className='table-career'>
+					{!!careerCheck[skillKey] ? '✓' : ''}
+				</td>
+				<td className='table-rank'>
+					<select disabled={!archetype || !career} value={skillRanks[skillKey]}
+							onChange={this.handleRankChange} style={{margin: '0'}}>
+						{ranks.map((key) => <option key={key} value={key}>{key}</option>)}
+					</select>
+				</td>
+				<td className='table-dice'>
+					<Description text={skillDice[skillKey]}/>
                 </td>
                 <td>
                     <Button
@@ -87,9 +86,9 @@ class SkillRowComponent extends React.Component {
                         Roll
                     </Button>
                 </td>
-            </tr>
-        );
-    }
+			</tr>
+		)
+	}
 }
 
 const tags = [{ full: '[yellow]', abbr: 'y' }, { full: '[green]', abbr: 'g' }, { full: ' ', abbr: '' }];

@@ -1,12 +1,11 @@
+import clone from 'clone';
 import React from 'react';
 import {connect} from 'react-redux';
 import {Col, Input, Row} from 'reactstrap';
 import {bindActionCreators} from 'redux';
 import {changeData} from "../actions";
+import * as images from '../images';
 import {ArchetypeSkills, Description} from './index';
-
-const clone = require('clone');
-
 
 class ArchetypeStatsComponent extends React.Component {
 
@@ -24,24 +23,21 @@ class ArchetypeStatsComponent extends React.Component {
 			<div>
 				<Row className='my-2'><Col sm='5'><b>Starting Stats: </b></Col></Row>
 				<Row className='justify-content-center my-2'>
-					{Object.keys(masterArchetype.characteristics).map((stat) =>
+					{Object.keys(masterArchetype.characteristics).map(stat =>
 						<div className='imageBox' key={stat}>
-							<img src={'/images/png/Characteristic.png'} alt='' className='png'/>
+							<img src={images.CRB[stat]} alt='' className='svg'/>
 							<Row className='characteristicValue'>{masterArchetype.characteristics[stat]}</Row>
-							<Row className='characteristicTitle'>{stat}</Row>
 						</div>
 					)}
 				</Row>
 				{masterArchetype &&
 				<Row className='justify-content-center my-2'>
 					<div className='imageBox attribute'>
-						<img src={'/images/png/SingleAttribute.png'} alt='' className='png'/>
-						<Row className='attributeTitle'>WOUNDS</Row>
+						<img src={images.CRB.WoundsThreshold} alt='' className='svg'/>
 						<Row className='attributeValue'>{masterArchetype.woundThreshold}</Row>
 					</div>
 					<div className='imageBox attribute'>
-						<img src={'/images/png/SingleAttribute.png'} alt='' className='png'/>
-						<Row className='attributeTitle'>STRAIN</Row>
+						<img src={images.CRB.StrainThreshold} alt='' className='svg'/>
 						<Row className='attributeValue'>{masterArchetype.strainThreshold}</Row>
 					</div>
 				</Row>
@@ -85,7 +81,7 @@ class ArchetypeStatsComponent extends React.Component {
 				)}
 				<Row className='my-2'>
 					<Col sm='5'><b>Setting:</b></Col>
-					<Col>{masterArchetype.setting}</Col></Row>
+					<Col>{Array.isArray(masterArchetype.setting) ? masterArchetype.setting.sort().join(', ') : masterArchetype.setting}</Col></Row>
 				{masterArchetype.book &&
 				<Row className='my-2'>
 					<Col sm='5'><b>Book:</b></Col>
@@ -96,7 +92,6 @@ class ArchetypeStatsComponent extends React.Component {
 					<Col sm='5'><b>Description:</b></Col>
 					<Col> <Description text={masterArchetype.description}/></Col>
 				</Row>
-
 			</div>
 		);
 	}

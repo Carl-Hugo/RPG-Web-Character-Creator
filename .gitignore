@@ -22,5 +22,4 @@ yarn-error.log*
 config.js
 *.iml
 config.secrets.js
-
 config.secrets.json

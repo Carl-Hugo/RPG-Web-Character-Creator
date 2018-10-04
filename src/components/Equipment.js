@@ -1,4 +1,5 @@
-import {omit} from 'lodash-es';
+import clone from 'clone';
+import {omit, range} from 'lodash-es';
 import React from 'react';
 import {connect} from 'react-redux';
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
@@ -6,9 +7,7 @@ import {Button, Col, Input, Row, Table} from 'reactstrap';
 import {bindActionCreators} from 'redux';
 import {changeData} from '../actions';
 import {encumbranceLimit, equipmentStats, gearDice, skillDice, totalDefense, totalEncumbrance, totalSoak,} from '../selectors';
-import {DeleteButton, Description, Gear} from "./index";
-
-const clone = require('clone');
+import {DeleteButton, Description, Gear} from './index';
 
 class EquipmentComponent extends React.Component {
 	state = {
@@ -43,11 +42,12 @@ class EquipmentComponent extends React.Component {
 		changeData(obj, type);
 	};
 
-	handleSelect = (type, key, event) => {
+	handleSelect = (event) => {
 		const {changeData} = this.props;
-		let obj = clone(this.props[type]);
-		obj[key].craftsmanship = event.target.value;
-		changeData(obj, type);
+		let equipmentType = event.target.getAttribute('equipmenttype'), key = event.target.getAttribute('equipmentkey');
+		let obj = clone(this.props[equipmentType]);
+		obj[key][event.target.name] = event.target.name === 'quantity' ? +event.target.value : event.target.value;
+		changeData(obj, equipmentType);
 	};
 
 	handleDelete = (event) => {
@@ -118,18 +118,29 @@ class EquipmentComponent extends React.Component {
 						<DeleteButton name={key} value={type} onClick={this.handleDelete}/>
 					</td>
 				);
-			case 'amount':
-				return;
 			case 'craftsmanship':
 				return (
 					<td key={key + block} style={{width: '7em'}} className='p-1'>
-						<Input type='select' value={equipmentStats[key].craftsmanship}
-							   onChange={this.handleSelect.bind(this, type, key)}>
+						<Input type='select' name='craftsmanship' value={equipmentStats[key].craftsmanship}
+							   equipmenttype={type} equipmentkey={key}
+							   onChange={this.handleSelect}>
 							<option value=''/>
 							{Object.keys(craftsmanship).map(craft =>
 								<option value={craft} key={craft}>{craft}</option>
 							)}
 
+						</Input>
+					</td>
+				);
+			case 'quantity':
+				return (
+					<td key={key + block}>
+						<Input type='select' value={equipmentStats[key].quantity}
+							   equipmenttype={type} equipmentkey={key} name='quantity'
+							   onChange={this.handleSelect}>
+							{range(1, 10).map(number =>
+								<option value={+number} key={number}>{number}</option>
+							)}
 						</Input>
 					</td>
 				);
@@ -142,7 +153,7 @@ class EquipmentComponent extends React.Component {
 		const {equipmentWeapons, equipmentArmor, equipmentGear, totalEncumbrance, encumbranceLimit, totalSoak, totalDefense, changeData} = this.props;
 		const {money, equipModal} = this.state;
 		return (
-			<div className='w-100'>
+			<div>
 				<Row className='justify-content-end'><h5>EQUIPMENT</h5></Row>
 				<hr/>
 				<Row className='my-2'>
@@ -165,7 +176,7 @@ class EquipmentComponent extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<Tabs defaultIndex={0} className='d-print-none'>
+					<Tabs defaultIndex={0} className='d-print-none  overflowX' style={{width: '90vw'}}>
 						<TabList>
 							<Tab>WEAPONS</Tab>
 							<Tab>ARMOR</Tab>
@@ -173,18 +184,18 @@ class EquipmentComponent extends React.Component {
 						</TabList>
 						<TabPanel>
 							{Object.keys(equipmentWeapons).length > 0 &&
-							<Table className='text-center'>
+							<Table className='text-center bg-light'>
 								<thead>
 								<tr>
-									<th>CARRY</th>
-									<th>CRAFT</th>
 									<th>NAME</th>
+									<th>CARRY</th>
 									<th>DAM</th>
 									<th>CRIT</th>
 									<th>RANGE</th>
 									<th>SKILL</th>
 									<th>ENCUM</th>
 									<th>QUAL</th>
+									<th>CRAFT</th>
 									<th>DICE</th>
 									<th/>
 								</tr>
@@ -192,7 +203,7 @@ class EquipmentComponent extends React.Component {
 								<tbody>
 								{Object.keys(equipmentWeapons).map(key =>
 									<tr key={key}>
-										{['carried', 'craftsmanship', 'name', 'damage', 'critical', 'range', 'skill', 'encumbrance', 'qualities', 'gearDice', 'deleteButton'].map(block =>
+										{['name', 'carried', 'damage', 'critical', 'range', 'skill', 'encumbrance', 'qualities', 'craftsmanship', 'gearDice', 'deleteButton'].map(block =>
 											this.getLabel('equipmentWeapons', block, key)
 										)}
 									</tr>
@@ -207,23 +218,24 @@ class EquipmentComponent extends React.Component {
 							<Table className='text-center'>
 								<thead>
 								<tr>
+									<th>NAME</th>
 									<th>EQUIP</th>
 									<th>CARRY</th>
-									<th>CRAFT</th>
-									<th>NAME</th>
 									<th>SOAK</th>
 									<th>DEFENSE</th>
 									<th>RANGED</th>
 									<th>MELEE</th>
 									<th>ENCUM</th>
 									<th>QUAL</th>
+									<th>CRAFT</th>
+
 									<th/>
 								</tr>
 								</thead>
 								<tbody>
 								{Object.keys(equipmentArmor).map(key =>
 									<tr key={key}>
-										{['equipped', 'carried', 'craftsmanship', 'name', 'soak', 'defense', 'rangedDefense', 'meleeDefense', 'encumbrance', 'qualities', 'deleteButton'].map(block =>
+										{['name', 'equipped', 'carried', 'soak', 'defense', 'rangedDefense', 'meleeDefense', 'encumbrance', 'qualities', 'craftsmanship', 'deleteButton'].map(block =>
 											this.getLabel('equipmentArmor', block, key)
 										)}
 									</tr>
@@ -238,8 +250,9 @@ class EquipmentComponent extends React.Component {
 							<Table className='text-center'>
 								<thead>
 								<tr>
-									<th>CARRY</th>
 									<th>NAME</th>
+									<th>CARRY</th>
+									<th>QUANTITY</th>
 									<th>ENCUM</th>
 									<th>QUAL</th>
 									<th/>
@@ -248,7 +261,7 @@ class EquipmentComponent extends React.Component {
 								<tbody>
 								{Object.keys(equipmentGear).map(key =>
 									<tr key={key}>
-										{['carried', 'name', 'encumbrance', 'qualities', 'deleteButton'].map(block =>
+										{['name', 'carried', 'quantity', 'encumbrance', 'qualities', 'deleteButton'].map(block =>
 											this.getLabel('equipmentGear', block, key)
 										)}
 									</tr>

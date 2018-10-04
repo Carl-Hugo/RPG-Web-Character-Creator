@@ -1,11 +1,11 @@
 import {cloneDeep, startCase} from 'lodash-es'
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Col, FormGroup, Input, Label, Row} from 'reactstrap';
+import {Button, Card, CardBody, CardHeader, CardText, Col, Input, Label, Row} from 'reactstrap';
 import {bindActionCreators} from 'redux';
 import {importCharacter, importCustomData} from '../actions';
 import {customDataTypes, dataTypes} from '../data/lists';
-import {db} from '../firestore/db';
+import {db} from '../firestoreDB';
 
 class ImportExportComponent extends React.Component {
 	state = {characters: [], customData: {}};
@@ -13,7 +13,7 @@ class ImportExportComponent extends React.Component {
 	generateFileName = () => {
 		let time = new Date(Date.now())
 			.toLocaleString()
-			.replace(/[' ']/g, '')
+			.replace(/[\s+]/g, '')
 			.replace(/[\D+]/g, '_')
 			.slice(0, -2);
 		return `GenesysEmporiumExport_${time}.json`
@@ -31,12 +31,9 @@ class ImportExportComponent extends React.Component {
 					db.doc(`users/${user}/data/characters/${character}/${type}/`).get()
 						.then(doc => {
 							if (doc.exists) file[type] = cloneDeep(doc.data().data);
-							else file[type] = null;
 							if (index + 1 >= dataTypes.length) final.push({character: file});
 							if (final.length === characters.length + (Object.keys(customData).length > 0 ? 1 : 0)) resolve(final);
-						}, err => {
-							console.log(`Encountered error: ${err}`);
-						});
+						}, err => console.log(`Encountered error: ${err}`));
 				});
 			});
 			let file = {};
@@ -52,12 +49,10 @@ class ImportExportComponent extends React.Component {
 								}
 							})
 						}
-						else file[type] = null;
 						if (index + 1 >= Object.keys(customData).length) final.push({customData: file});
 						if (final.length === characters.length + (Object.keys(customData).length > 0 ? 1 : 0)) resolve(final);
-					}, err => {
-						console.log(`Encountered error: ${err}`);
-					});
+					}, err => console.log(`Encountered error: ${err}`));
+
 			});
 
 		}).then(finalExport => {
@@ -150,61 +145,7 @@ class ImportExportComponent extends React.Component {
 		const {characterList} = this.props;
 		const {characters, customData} = this.state;
 		return (
-			<Col sm='auto' className='align-self-end align-self-middle'>
-				<FormGroup check>
-					{['characters', 'customData'].map(type => {
-						let list = {};
-						if (type === 'characters') list = {...characterList};
-						if (type === 'customData') {
-							customDataTypes.forEach(key => list[key] = startCase(key));
-						}
-						return (
-							<div key={type}>
-								<Row>
-									<Label check>
-										<Input type="checkbox"
-											   value='all'
-											   name={type}
-											   checked={type === 'characters' ? characters.length === Object.keys(list).length : customDataTypes.every(type => Object.keys(this.props[type]).every(key => customData[type] ? customData[type].includes(key) : false))}
-											   onChange={this.handleChange}
-										/>
-										{' '} <b>All {startCase(type)}</b>
-									</Label>
-								</Row>
-								{Object.keys(list).sort().map(item =>
-									<div key={item}>
-										<Row className='ml-2'>
-											<Label check>
-												<Input type='checkbox'
-													   checked={type === 'characters' ? characters.includes(item) : customData[item] ? Object.keys(this.props[item]).every(key => customData[item].includes(key)) : false}
-													   value={item}
-													   name={type}
-													   onChange={this.handleChange}
-												/>
-												{' '} {list[item]}
-											</Label>
-										</Row>
-										{type === 'customData' && this.props[item] &&
-										Object.keys(this.props[item]).sort().map(key =>
-											<Row className='ml-4' key={item + key}>
-												<Label check>
-													<Input type='checkbox'
-														   checked={customData[item] ? customData[item].includes(key) : false}
-														   id={key}
-														   value={item}
-														   name={type}
-														   onChange={this.handleChange}
-													/>
-													{' '} {this.props[item][key].name ? this.props[item][key].name : key}
-												</Label>
-											</Row>
-										)}
-									</div>
-								)}
-							</div>
-						)
-					})}
-				</FormGroup>
+			<div className='align-self-end align-self-middle'>
 				<Row>
 					<Button
 						className='m-2 align-middle'
@@ -219,7 +160,58 @@ class ImportExportComponent extends React.Component {
 						id='import'
 						hidden/>
 				</Row>
-			</Col>
+				{['characters', 'customData'].map(type => {
+					let list = {};
+					if (type === 'characters') list = {...characterList};
+					if (type === 'customData') customDataTypes.forEach(key => list[key] = startCase(key));
+					return (
+						<div key={type}>
+							<Row>
+								<Input type="checkbox"
+									   value='all'
+									   name={type}
+									   checked={type === 'characters' ? characters.length === Object.keys(list).length : customDataTypes.every(type => Object.keys(this.props[type]).every(key => customData[type] ? customData[type].includes(key) : false))}
+									   onChange={this.handleChange}
+								/>{' '} <h5 className='my-auto'>All {startCase(type)}</h5>
+							</Row>
+							<Row>
+								{Object.keys(list).sort().map(item =>
+									type === 'customData' && 0 >= Object.keys(this.props[item]).length ? '' :
+										<Col md='4' key={item}>
+											<Card className='m-2 w-100'>
+												<CardHeader>
+													<CardText className='ml-2'>
+														<Input type='checkbox'
+															   checked={type === 'characters' ? characters.includes(item) : customData[item] ? Object.keys(this.props[item]).every(key => customData[item].includes(key)) : false}
+															   value={item}
+															   name={type}
+															   onChange={this.handleChange}
+														/> {' '}<strong>{list[item]}</strong>
+													</CardText>
+												</CardHeader>
+
+												{type === 'customData' && this.props[item] && Object.keys(this.props[item]).length > 0 &&
+												<CardBody key={item} className='py-2 ml-4'>
+													{Object.keys(this.props[item]).sort().map(key =>
+														<CardText key={key}>
+															<Input type='checkbox'
+																   checked={customData[item] ? customData[item].includes(key) : false}
+																   id={key}
+																   value={item}
+																   name={type}
+																   onChange={this.handleChange}/> {' '}{this.props[item][key].name ? this.props[item][key].name : key}
+														</CardText>
+													)}
+												</CardBody>
+												}
+											</Card>
+										</Col>
+								)}
+							</Row>
+						</div>
+					)
+				})}
+			</div>
 
 		);
 	}

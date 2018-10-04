@@ -6,17 +6,22 @@ import {Description} from './index'
 
 class TalentListComponent extends React.Component {
 
+	activation = (value) => {
+		if (value) return 'var(--orangeFade)';
+		else return 'var(--lightblueFade)';
+	};
+
 	render() {
 		const {archetype, archetypes, archetypeTalents, talents, talentCount, misc} = this.props;
 		return (
-			<div className='w-100 no-break'>
+			<div className='no-break'>
 				<Row className='justify-content-end'><h5>TALENT LIST</h5></Row>
 				<hr/>
-				<Table>
+				<Table className='fontSizeSmall bg-light'>
 					<thead>
 					<tr className='text-center'>
-						{['Talent', 'Rank', 'Activation', 'Type', 'Description'].map((heading) =>
-							<th key={heading}>{heading}</th>
+						{['Talent', 'Ranks', 'Activation', 'Type', 'Description'].map(heading =>
+							<th key={heading} className='px-2'>{heading}</th>
 						)}
 					</tr>
 					</thead>
@@ -27,7 +32,8 @@ class TalentListComponent extends React.Component {
 						<tr key={key}>
 							<td>{archetypeTalents[key].name}</td>
 							<td/>
-							<td className='text-center'>{archetypeTalents[key].activation ? 'Active' : 'Passive'}</td>
+							<td className='text-center'
+								style={{backgroundColor: this.activation(archetypeTalents[key].activation)}}>{archetypeTalents[key].activation ? 'Active' : 'Passive'}</td>
 							<td className='text-center'>{archetypeTalents[key].turn}</td>
 							<td><Description text={archetypeTalents[key].description ? archetypeTalents[key].description : ''}/></td>
 						</tr>
@@ -38,7 +44,8 @@ class TalentListComponent extends React.Component {
 					<tr>
 						<td>{archetypeTalents[misc.archetypeTalents].name}</td>
 						<td/>
-						<td className='text-center'>{archetypeTalents[misc.archetypeTalents].activation ? 'Active' : 'Passive'}</td>
+						<td className='text-center'
+							style={{backgroundColor: this.activation(archetypeTalents[misc.archetypeTalents].activation)}}>{archetypeTalents[misc.archetypeTalents].activation ? 'Active' : 'Passive'}</td>
 						<td className='text-center'>{archetypeTalents[misc.archetypeTalents].turn}</td>
 						<td><Description text={archetypeTalents[misc.archetypeTalents].description}/></td>
 					</tr>
@@ -48,7 +55,8 @@ class TalentListComponent extends React.Component {
 						<tr key={key}>
 							<td>{talents[key].name}</td>
 							<td className='text-center'>{talentCount[key]}</td>
-							<td className='text-center'>{talents[key].activation ? 'Active' : 'Passive'}</td>
+							<td className='text-center'
+								style={{backgroundColor: this.activation(talents[key].activation)}}>{talents[key].activation ? 'Active' : 'Passive'}</td>
 							<td className='text-center'>{talents[key].turn}</td>
 							<td><Description text={talents[key].description ? talents[key].description : ''}/></td>
 						</tr>
