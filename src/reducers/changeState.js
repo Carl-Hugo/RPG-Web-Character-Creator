@@ -1,10 +1,9 @@
+import clone from 'clone';
 import merge from 'deepmerge';
-import { upperFirst } from 'lodash';
+import {upperFirst} from 'lodash-es';
 import * as data from '../data';
 import {typeCheck} from './checkTypes';
 import * as initialState from './initialState';
-
-const clone = require('clone');
 
 //loading objects
 const loadingReducer = (state, action, type) => {
@@ -33,19 +32,14 @@ export const archetypeSpecialSkills = (state = clone(initialState.archetypeSpeci
 export const career = (state = clone(initialState.career), action) => characterReducer(state, action, 'career');
 export const careerSkillsRank = (state = clone(initialState.careerSkillsRank), action) => characterReducer(state, action, 'careerSkillsRank');
 export const creationCharacteristics = (state = clone(initialState.creationCharacteristics), action) => characterReducer(state, action, 'creationCharacteristics');
-export const critical = (state = clone(initialState.critical), action) =>
-    characterReducer(
-        state,
-        {
-            type: action.type,
-            payload: Array.isArray(action.payload) ? action.payload.sort((a, b) => a - b) : null
-        },
-        'critical'
-    );
-export const currentStrain = (state = clone(initialState.currentStrain), action) => characterReducer(state, action, 'currentStrain');
-export const currentWound = (state = clone(initialState.currentWound), action) => characterReducer(state, action, 'currentWounds');
+export const critical = (state = clone(initialState.critical), action) => characterReducer(state, {
+	type: action.type,
+	payload: Array.isArray(action.payload) ? action.payload.sort((a, b) => a - b) : null
+}, 'critical');
+export const currentStrain = (state = initialState.currentStrain, action) => characterReducer(state, action, 'currentStrain');
+export const currentWound = (state = initialState.currentWound, action) => characterReducer(state, action, 'currentWound');
 export const description = (state = clone(initialState.description), action) => characterReducer(state, action, 'description');
-export const earnedXP = (state = clone(initialState.earnedXP), action) => characterReducer(state, action, 'earnedXP');
+export const earnedXP = (state = initialState.earnedXP, action) => characterReducer(state, action, 'earnedXP');
 export const equipmentArmor = (state = clone(initialState.equipmentArmor), action) => characterReducer(state, action, 'equipmentArmor');
 export const equipmentGear = (state = clone(initialState.equipmentGear), action) => characterReducer(state, action, 'equipmentGear');
 export const equipmentWeapons = (state = clone(initialState.equipmentWeapons), action) => characterReducer(state, action, 'equipmentWeapons');
@@ -53,29 +47,34 @@ export const masterMotivations = (state = clone(initialState.masterMotivations),
 export const masterSkills = (state = clone(initialState.masterSkills), action) => characterReducer(state, action, 'masterSkills');
 export const masterTalents = (state = clone(initialState.masterTalents), action) => characterReducer(state, action, 'masterTalents');
 export const misc = (state = clone(initialState.misc), action) => characterReducer(state, action, 'misc');
-export const money = (state = clone(initialState.money), action) => characterReducer(state, action, 'money');
+export const money = (state = initialState.money, action) => characterReducer(state, action, 'money');
 export const setting = (state = clone(initialState.setting), action) => characterReducer(state, action, 'setting');
+export const strict = (state = initialState.strict, action) => characterReducer(state, action, 'strict');
 export const talentModifiers = (state = clone(initialState.talentModifiers), action) => characterReducer(state, action, 'talentModifiers');
 export const additionalDices = (state = clone(initialState.additionalDices), action) => characterReducer(state, action, 'additionalDices');
 
 //database objects
 const databaseReducer = (state, action, type) => {
-    if (action.type === `custom${upperFirst(type)}_Changed`) {
-        let obj = data[type];
-        if (action.payload) obj = merge(data[type], action.payload);
-        if (action.setting && action.setting.length > 0 && !action.setting.includes('All') && type !== 'settings') {
-            let filter = {};
-            Object.keys(obj).forEach(key => {
-                if (obj[key].setting) {
-                    if (obj[key].setting.includes('All') || action.setting.some(setting => obj[key].setting.includes(setting))) {
-                        filter[key] = clone(obj[key]);
-                    }
-                } else filter[key] = clone(obj[key]);
-            });
-            return filter;
-        } else return obj;
-    }
-    return state;
+	if (action.type === `custom${upperFirst(type)}_Changed`) {
+		let obj = data[type];
+		if (action.payload) obj = merge(data[type], action.payload);
+		if (action.setting && action.setting.length > 0 && !action.setting.includes('All') && type !== 'settings') {
+			let filter = {};
+			Object.keys(obj).forEach(key => {
+				if (obj[key].setting) {
+					if (action.strict) {
+						if (action.setting.some(setting => obj[key].setting.includes(setting))) filter[key] = clone(obj[key]);
+					}
+					else {
+						if (obj[key].setting.includes('All') || action.setting.some(setting => obj[key].setting.includes(setting))) filter[key] = clone(obj[key]);
+					}
+				} else filter[key] = clone(obj[key]);
+			});
+			return filter;
+		}
+		else return obj;
+	}
+	return state;
 };
 
 export const archetypes = (state = data.archetypes, action) => databaseReducer(state, action, 'archetypes');

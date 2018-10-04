@@ -1,11 +1,13 @@
 import firebase from '@firebase/app';
 import '@firebase/auth';
 import React from 'react';
+import ReactGA from 'react-ga'
 import {connect} from 'react-redux';
 import {Tab, TabList, TabPanel, Tabs} from 'react-tabs';
 import {Container} from 'reactstrap';
 import {bindActionCreators} from 'redux';
 import {changeUser, loadCharacterList, loadCustomData, loadData} from '../actions';
+import {gaID} from '../config'
 import {DataPage, MainPage, User} from './';
 import {CustomData} from './CustomData';
 
@@ -13,6 +15,8 @@ class AppComponent extends React.Component {
 	state = {loading: true};
 
 	componentWillMount() {
+		ReactGA.initialize(gaID);
+		ReactGA.pageview(window.location.pathname);
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
 				const imporsonatedId = this.getCustomUserId();
@@ -40,8 +44,9 @@ class AppComponent extends React.Component {
 			loadCustomData();
 		}
 		if (nextProps.character && nextProps.character !== this.props.character) this.props.loadData();
-		if (nextProps.setting && nextProps.setting !== this.props.setting) this.props.loadCustomData(nextProps.setting);
-		if (nextProps.printContent !== this.props.printContent) setTimeout(() => window.print(), 300);
+		if (nextProps.setting && nextProps.setting !== this.props.setting) this.props.loadCustomData(nextProps.setting, nextProps.strict);
+		if (nextProps.strict !== this.props.strict) this.props.loadCustomData(nextProps.setting, nextProps.strict);
+		if (nextProps.printContent !== this.props.printContent) setTimeout(() => window.print(), 400);
 	}
 
 	render() {
@@ -52,24 +57,25 @@ class AppComponent extends React.Component {
 		if (!(this.props.user)) return <User/>;
 		if (loadingCustomData || loadingData) return loadingPage;
 		else return (
-			<Container className='ml-1' style={{marginBottom: '8rem'}}>
-				<Tabs defaultIndex={0} className='m-1 d-print-none'>
+			<Container>
+				<Tabs defaultIndex={0} className='d-print-none mt-2 mx-1' style={{marginBottom: '5rem'}}>
 					<TabList>
 						<Tab>CHARACTERS</Tab>
 						<Tab>CUSTOM DATA</Tab>
 						<Tab>EXPORT / IMPORT</Tab>
 					</TabList>
-					<TabPanel className='w-100'>
+					<TabPanel>
 						<MainPage/>
 					</TabPanel>
-					<TabPanel className='w-100'>
+					<TabPanel>
 						<CustomData/>
 					</TabPanel>
-					<TabPanel className='w-100'>
+					<TabPanel>
 						<DataPage/>
 					</TabPanel>
 				</Tabs>
 				<div className='d-none d-print-block'>{this.props.printContent}</div>
+				<div className='bg bg-CRB d-print-none'/>
 			</Container>
 		);
 	}
@@ -83,6 +89,7 @@ const mapStateToProps = state => {
 		loadingCustomData: state.loadingCustomData,
 		printContent: state.printContent,
 		setting: state.setting,
+		strict: state.strict,
 	};
 };
 

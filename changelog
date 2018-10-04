@@ -1,0 +1,48 @@
+v1.3.9
+    -added threshold stat blocks
+    -added version# readout
+
+v1.3.8
+    -slimmed down data index
+    -started structure for themes
+    -fixed setting to careers
+
+v1.3.7
+    -fixed a dumb import flub
+    -fixed missing images in archetype
+    -JSON all data
+
+v1.3.6
+    -fixed the crap job of importing settings
+
+v1.3.5
+    -move images inside of src/
+    -npm updated
+
+v1.3.4
+    -simplified divs in skillblock and skillrow
+    -color-adjust: exact;//:For Firefox printing?
+    -simplified the talent pyramid in print
+
+v1.3.3
+    -removed a layer of div
+    -switched to svg
+    -fixed a ton of formatting that i screwed up
+    -lower case on desc symbols
+    -updated
+           + react-dom@16.5.2
+           + sockjs-client@1.3.0
+           + react@16.5.2
+           + ajv@6.5.4
+           + firebase@5.5.1
+
+v1.3.2
+    -array check for displaying settings
+
+v1.3.1
+    -prettied up the import/export module
+    -added bulk settings maker
+    -added .sort().join(', ') to all the setting displays
+    -added a merge and sort when adding setting to customItems
+    -moved Settingbuilder to CustomData/
+    -community links

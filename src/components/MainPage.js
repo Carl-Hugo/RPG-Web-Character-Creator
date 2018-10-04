@@ -9,6 +9,7 @@ import {
 	CharacterSelect,
 	Critical,
 	Equipment,
+	ErrorBoundary,
 	Motivation,
 	Notes,
 	ShowCharacteristics,
@@ -20,34 +21,42 @@ import {
 
 export const MainPage = () => {
 	return (
-		<div className='mx-2'>
-			<Buttons/>
-			<Row className='m-1'>
+		<div>
+			<ErrorBoundary><Buttons/></ErrorBoundary>
+			<Row>
 				<Col md='6'>
-					<CharacterSelect/>
+					<ErrorBoundary>
+						<CharacterSelect/>
+					</ErrorBoundary>
 				</Col>
 				<Col md='6'>
-					<CharacterImage/>
-				</Col>
-			</Row>
-			<Row className='m-1'><Attributes/></Row>
-			<Row className='m-1'><ShowCharacteristics/></Row>
-			<Row className='m-1'><Critical/></Row>
-			<Row className='m-1'><XPBoxes/></Row>
-			<Row className='m-1'><Skill/></Row>
-			<Row className='m-1'><Motivation/></Row>
-			<Row className='m-1'><Equipment/></Row>
-			<Row className='m-1'>
-				<Col md='6'>
-					<CharacterDescription/>
-				</Col>
-				<Col md='6'>
-					<Notes/>
+					<ErrorBoundary>
+						<CharacterImage/>
+					</ErrorBoundary>
 				</Col>
 			</Row>
-			<Row className='m-1'><TalentList/></Row>
-			<Row className='m-1'><Talents/></Row>
-			<Row className='m-1 justify-content-center'><About/></Row>
+			<ErrorBoundary><Attributes/></ErrorBoundary>
+			<ErrorBoundary><ShowCharacteristics/></ErrorBoundary>
+			<ErrorBoundary><Critical/></ErrorBoundary>
+			<ErrorBoundary><XPBoxes/></ErrorBoundary>
+			<ErrorBoundary><Skill/></ErrorBoundary>
+			<ErrorBoundary><Motivation/></ErrorBoundary>
+			<ErrorBoundary><Equipment/></ErrorBoundary>
+			<Row>
+				<Col md='6'>
+					<ErrorBoundary>
+						<CharacterDescription/>
+					</ErrorBoundary>
+				</Col>
+				<Col md='6'>
+					<ErrorBoundary>
+						<Notes/>
+					</ErrorBoundary>
+				</Col>
+			</Row>
+			<ErrorBoundary><TalentList/></ErrorBoundary>
+			<ErrorBoundary><Talents/></ErrorBoundary>
+			<ErrorBoundary><About/></ErrorBoundary>
 		</div>
 	);
 };

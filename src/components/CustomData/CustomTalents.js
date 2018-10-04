@@ -1,3 +1,4 @@
+import clone from 'clone';
 import {camelCase, omit, upperFirst} from 'lodash-es';
 import React from 'react';
 import {connect} from 'react-redux';
@@ -7,8 +8,6 @@ import {ControlButtonSet, DeleteButton} from '../';
 import {changeCustomData} from '../../actions';
 import {diceNames, modifiableAttributes} from '../../data/lists'
 import {Fragment} from './';
-
-const clone = require('clone');
 
 class CustomTalentsComponent extends React.Component {
 	state = {
@@ -131,7 +130,7 @@ class CustomTalentsComponent extends React.Component {
 					  blankOption={false} handleChange={(event) => this.setState({modifier: JSON.parse(event.target.value), modifierValue: ''})}/>
 
 			{modifier && <Fragment type='inputSelect' title='Attribute' value={modifier}
-								   array={modifiableAttributes.concat(Object.keys(skills)).sort()}
+								   array={(modifiableAttributes.concat(Object.keys(skills))).sort()}
 								   nameObj={skills}
 								   handleChange={(event) => this.setState({
 									   modifier: event.target.value,

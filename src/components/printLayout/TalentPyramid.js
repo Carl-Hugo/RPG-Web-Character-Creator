@@ -1,7 +1,7 @@
 import React from 'react';
 import DynamicFont from 'react-dynamic-font';
 import {connect} from 'react-redux';
-import {Card, CardBody, CardHeader, CardText, Row} from 'reactstrap';
+import {Card, CardBody, Row} from 'reactstrap';
 import {talentCount} from '../../selectors';
 
 class Component extends React.Component {
@@ -21,21 +21,15 @@ class Component extends React.Component {
 				<Row className='justify-content-end'><h5>TALENTS</h5></Row>
 				<hr/>
 				{Object.keys(masterTalents).map(row =>
-					<Row key={row} className=''>
+					<Row key={row}>
 						{Object.keys(masterTalents[row]).map(tier => {
-								let talentKey = masterTalents[row][tier];
-								let talent = talents[talentKey];
+							let talent = talents[masterTalents[row][tier]];
 								return (
-									<Card key={row + tier} className='m-1 talentCard'>
-										<CardHeader className='p-1 text-center'
-													style={{backgroundColor: this.activation(talentKey)}}>
+									<Card key={row + tier} className='m-2 my-3 talentCard'>
+										<CardBody className='p-1 text-center'
+													style={{backgroundColor: this.activation(masterTalents[row][tier])}}>
 											<DynamicFont
-												content={talentKey === '' ? 'inactive' : talent ? talent.name : 'Missing Talent'}/>
-										</CardHeader>
-										<CardBody className='p-1 talentDesc'>
-											<CardText>
-												{(talent ? talent.description + '\n\n' + (talent.activation ? talent.turn : '') : '')}
-											</CardText>
+												content={masterTalents[row][tier] === '' ? 'inactive' : talent ? talent.name : 'Missing Talent'}/>
 										</CardBody>
 									</Card>
 								)

@@ -3,14 +3,10 @@ import {connect} from 'react-redux';
 import {Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Row} from 'reactstrap';
 import {bindActionCreators} from 'redux';
 import {changeData} from '../actions';
+import * as images from '../images';
 
 class CharacterImageComponent extends React.Component {
 	state = {modal: false, text: this.props.description.image};
-
-	handleChange = (event) => {
-		this.setState({text: event.target.value});
-		event.preventDefault();
-	};
 
 	handleBlur = (event) => {
 		const {changeData, description} = this.props;
@@ -34,14 +30,14 @@ class CharacterImageComponent extends React.Component {
 					<img className='img-fluid w-100 h-100' style={{maxWidth: 'unset'}}
 						 src={description.image ? description.image : ''}
 						 alt='not found' ref={img => this.img = img}
-						 onError={() => this.img.src = 'images/png/Crest.png'}/>
+						 onError={() => this.img.src = images.Crest}/>
 				</Row>
 				<Modal isOpen={modal !== false} toggle={() => this.setState({modal: false})}>
 					<ModalHeader toggle={() => this.setState({modal: false})}>Edit Character Image</ModalHeader>
 					<ModalBody className='m-3'>
 						<div>
 							<Row>CHARACTER IMAGE URL:</Row>
-							<Input type='text' value={text} onBlur={this.handleBlur} onChange={this.handleChange}/>
+							<Input type='text' value={text} onBlur={this.handleBlur} onChange={(event) => this.setState({text: event.target.value})}/>
 						</div>
 					</ModalBody>
 					<ModalFooter>

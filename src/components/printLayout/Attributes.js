@@ -1,45 +1,37 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Row} from 'reactstrap';
-import {encumbranceLimit, strainThreshold, totalDefense, totalEncumbrance, totalSoak, woundThreshold,} from "../../selectors";
+import * as images from '../../images';
+import {encumbranceLimit, strainThreshold, totalDefense, totalEncumbrance, totalSoak, woundThreshold,} from '../../selectors';
 
 class Component extends React.Component {
 
 	render() {
-		const {woundThreshold, strainThreshold, currentWound, currentStrain, totalSoak, totalDefense, totalEncumbrance, encumbranceLimit} = this.props;
+		const {woundThreshold, strainThreshold, currentWound, currentStrain, totalSoak, totalDefense} = this.props;
 		return (
 			<div>
 				<Row className='justify-content-end'><h5>ATTRIBUTES</h5></Row>
 				<hr/>
 				<Row className='my-1 justify-content-center'>
 					<div className='imageBox attribute'>
-						<img src={'/images/png/DoubleAttribute.png'} alt='' className='png'/>
-						<Row className='attributeTitle'>WOUNDS</Row>
+						<img src={images.CRB.Wounds} alt='' className='svg'/>
 						<Row className='attributeValue'>
 							{`${woundThreshold}   |   ${currentWound}`}
 						</Row>
 					</div>
 					<div className='imageBox attribute'>
-						<img src={'/images/png/DoubleAttribute.png'} alt='' className='png'/>
-						<Row className='attributeTitle'>STRAIN</Row>
+						<img src={images.CRB.Strain} alt='' className='svg'/>
 						<Row className='attributeValue'>
 							{`${strainThreshold}   |   ${currentStrain}`}
 						</Row>
 					</div>
 					<div className='imageBox attribute'>
-						<img src={'/images/png/SingleAttribute.png'} alt='' className='png'/>
-						<Row className='attributeTitle'>SOAK</Row>
+						<img src={images.CRB.Soak} alt='' className='svg'/>
 						<Row className='attributeValue'>{totalSoak}</Row>
 					</div>
 					<div className='imageBox attribute'>
-						<img src={'/images/png/DoubleAttribute.png'} alt='' className='png'/>
-						<Row className='attributeTitle'>DEFENSE</Row>
+						<img src={images.CRB.Defense} alt='' className='svg'/>
 						<Row className='attributeValue'>{`${totalDefense.ranged}  |  ${totalDefense.melee}`}</Row>
-					</div>
-					<div className='imageBox attribute'>
-						<img src={'/images/png/DoubleAttribute.png'} alt='' className='png'/>
-						<Row className='attributeTitle'>ENCUMBRANCE</Row>
-						<Row className='attributeValue'>{`${encumbranceLimit}  |   ${totalEncumbrance}`}</Row>
 					</div>
 				</Row>
 			</div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Row} from 'reactstrap';
+import * as images from '../../images';
 import {totalXP, usedXP} from '../../selectors';
 
 class Component extends React.Component {
@@ -8,15 +9,15 @@ class Component extends React.Component {
 	render() {
 		const {totalXP, usedXP} = this.props;
 		return (
-			<div className='w-100 break-after'>
+			<div className='break-after'>
 				<Row className='justify-content-between'>
-					<div className='imageBox xpBox print-totalXP'>
-						<img src={'/images/png/TotalXP.png'} alt='' className='png'/>
+					<div className='imageBox xpBox totalXP'>
+						<img src={images.CRB.TotalXp} alt='' className='svg'/>
 						<Row className='xpValue'>{totalXP}</Row>
 					</div>
 
-					<div className='imageBox xpBox print-availableXP'>
-						<img src={'/images/png/AvailableXP.png'} alt='' className='png'/>
+					<div className='imageBox xpBox availableXP'>
+						<img src={images.CRB.AvailableXp} alt='' className='svg'/>
 						<Row className='xpValue'>{totalXP - usedXP}</Row>
 					</div>
 				</Row>
