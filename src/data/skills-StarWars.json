@@ -1,0 +1,46 @@
+{
+    "CoreWorld": {
+        "name": "Core World",
+        "type": "Knowledge",
+        "characteristic": "Intellect",
+        "setting": ["Star Wars"],
+        "book": "EotE",
+        "page": "?"
+    },
+    "Education": {
+        "characteristic": "Intellect",
+        "name": "Education",
+        "setting": ["Star Wars"],
+        "type": "Knowledge"
+    },
+    "Lore": {
+        "characteristic": "Intellect",
+        "name": "Lore",
+        "setting": ["Star Wars"],
+        "type": "Knowledge"
+    },
+    "OuterRim": {
+        "characteristic": "Intellect",
+        "name": "Outer Rim",
+        "setting": ["Star Wars"],
+        "type": "Knowledge"
+    },
+    "Underworld": {
+        "characteristic": "Intellect",
+        "name": "Underworld",
+        "setting": ["Star Wars"],
+        "type": "Knowledge"
+    },
+    "Warfare": {
+        "characteristic": "Intellect",
+        "name": "Warfare",
+        "setting": ["Star Wars"],
+        "type": "Knowledge"
+    },
+    "Xenology": {
+        "characteristic": "Intellect",
+        "name": "Xenology",
+        "setting": ["Star Wars"],
+        "type": "Knowledge"
+    }
+}
