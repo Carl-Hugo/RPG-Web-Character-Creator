@@ -21,6 +21,7 @@ class SkillComponent extends React.Component {
     };
 
     render() {
+		const {theme} = this.props;
         return (
             <div className="w-100">
                 <Row className="justify-content-end">
@@ -54,7 +55,9 @@ class SkillComponent extends React.Component {
                     </Col>
                     <Col />
                 </Row>
-				<Row className='justify-content-end'><h5>SKILLS</h5></Row>
+				<Row className='justify-content-end'>
+					<div className={`header header-${theme}`}>SKILLS</div>
+				</Row>
 				<hr/>
 				<Row>
 					<Col>
@@ -75,12 +78,13 @@ class SkillComponent extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
+const mapStateToProps = state => {
+	return {
+		theme: state.theme,
         customSkills: state.customSkills,
         description: state.description,
         additionalDices: state.additionalDices
-    };
-}
+	};
+};
 
 export const Skill = connect(mapStateToProps)(SkillComponent);

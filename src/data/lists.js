@@ -20,6 +20,8 @@ export const dataTypes = [
 	'setting',
 	'strict',
 	'talentModifiers',
+	'theme',
+	'themes',
 ];
 
 export const customDataTypes = [

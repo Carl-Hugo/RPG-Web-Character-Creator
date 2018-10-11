@@ -11,18 +11,18 @@ class XPBoxesComponent extends React.Component {
 	state = {modal: false};
 
 	render() {
-		const {totalXP, usedXP} = this.props;
+		const {totalXP, usedXP, theme} = this.props;
 		return (
 			<div>
-				<div className='imageBox xpBox totalXP' onClick={() => this.setState({modal: true})}>
-					<img src={images.CRB.TotalXp} alt='' className='svg'/>
-					<Row className='xpValue'>{totalXP}</Row>
+				<div className={`imageBox xpBox totalXP`} onClick={() => this.setState({modal: true})}>
+					<img src={images[theme].TotalXp} alt='' className='svg'/>
+					<Row className={`xpValue xpValue-${theme}`}>{totalXP}</Row>
 				</div>
 
-				<div className='imageBox xpBox availableXP' onClick={() => this.setState({modal: true})}>
-					<img src={images.CRB.AvailableXp} alt='' className='svg'/>
+				<div className={`imageBox xpBox availableXP availableXP-${theme}`} onClick={() => this.setState({modal: true})}>
+					<img src={images[theme].AvailableXp} alt='' className='svg'/>
 
-					<Row className='xpValue'>{totalXP - usedXP}</Row>
+					<Row className={`xpValue xpValue-${theme}`}>{totalXP - usedXP}</Row>
 				</div>
 				<XPPopup modal={this.state.modal} handleClose={() => this.setState({modal: false})}/>
 			</div>
@@ -34,6 +34,7 @@ const mapStateToProps = state => {
 	return {
 		totalXP: totalXP(state),
 		usedXP: usedXP(state),
+		theme: state.theme,
 	};
 };
 
