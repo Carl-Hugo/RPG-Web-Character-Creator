@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Col, Row, Table} from 'reactstrap';
-import {equipmentStats, gearDice, skillDice} from '../../selectors';
+import {encumbranceLimit, equipmentStats, gearDice, skillDice, totalEncumbrance} from '../../selectors';
 import {Description} from "../index";
 
 class Component extends React.Component {
@@ -63,14 +63,21 @@ class Component extends React.Component {
 	};
 
 	render() {
-		const {money, equipmentArmor, equipmentGear, equipmentWeapons} = this.props;
+		const {money, equipmentArmor, equipmentGear, equipmentWeapons, totalEncumbrance, encumbranceLimit, theme} = this.props;
 		return (
 			<div className='w-100'>
-				<Row className='justify-content-end'><h5>GEAR</h5></Row>
+				<Row className='justify-content-end'>
+					<div className={`header header-${theme}`}>GEAR</div>
+				</Row>
 				<hr/>
 				<Row className='my-2'>
-					<Col xs='1'><b className='my-auto'>MONEY:</b></Col>
-					<Col>{money > 0 ? money : ''}</Col>
+					<Col><b className='mx-1'> MONEY: </b>{money > 0 ? money : ''}</Col>
+					<Col>
+						<b className='mx-1'>Encumbrance: </b>
+						<a className={`text-${totalEncumbrance > encumbranceLimit ? 'danger' : 'dark'}`}>
+							{totalEncumbrance}/{encumbranceLimit}
+						</a>
+					</Col>
 				</Row>
 				{Object.keys(equipmentWeapons).length > 0 &&
 				<Row>
@@ -169,13 +176,16 @@ const mapStateToProps = state => {
 		equipmentArmor: state.equipmentArmor,
 		equipmentGear: state.equipmentGear,
 		equipmentStats: equipmentStats(state),
+		encumbranceLimit: encumbranceLimit(state),
 		equipmentWeapons: state.equipmentWeapons,
 		gearDice: gearDice(state),
 		qualities: state.qualities,
 		skillDice: skillDice(state),
 		skills: state.skills,
+		totalEncumbrance: totalEncumbrance(state),
 		weapons: state.weapons,
 		money: state.money,
+		theme: state.theme,
 	};
 };
 

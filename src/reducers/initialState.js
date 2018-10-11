@@ -33,6 +33,8 @@ export const money = 0;
 export const setting = ['All'];
 export const strict = false;
 export const talentModifiers = {Dedication: {},};
+export const theme = 'CRB';
+export const themes = {CRB: 'Core Rule Book', ROT: 'Realms of Terrinoth', SOTB: 'Shadow of the Beanstalk'};
 
 export const printContent = (
     <h1 className="text-left m-3" style={{ whiteSpace: 'pre-line' }}>

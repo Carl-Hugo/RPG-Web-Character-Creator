@@ -1,8 +1,7 @@
-
 body {
-	--orange: rgb(245, 142, 32);
-	--lightblue: rgb(181, 224, 232);
-	--darkblue: rgb(83, 136, 187);
+	--orange: rgb(255, 122, 22);
+	--lightblue: rgb(89, 163, 217);
+	--darkblue: rgb(19, 100, 185);
 	--gray: rgb(247, 245, 242);
 	--brown: rgb(179, 151, 123);
 	--red: rgb(148, 45, 37);
@@ -11,9 +10,8 @@ body {
 	--boost: rgb(118, 205, 219);
 	--ability: rgb(70, 172, 78);
 	--proficiency: rgb(254, 240, 53);
-	--orangeFade: rgba(245, 142, 32, 0.2);
-	--lightblueFade: rgba(181, 224, 232, 0.2);
-	font-family: 'Avenir Next', sans-serif !important;
+	--orangeFade: rgba(255, 122, 22, 0.2);
+	--lightblueFade: rgba(89, 163, 217, 0.2);
 }
 
 hr {
@@ -23,14 +21,12 @@ hr {
 	border-top: 2px solid rgba(0, 0, 0, 0.1);
 }
 
-h5 {
-	font-size: 1.25rem;
-	margin-bottom: 0;
-	margin-top: 0.5rem;
-}
-
 table {
 	vertical-align: middle;
+}
+
+thead {
+	font-weight: 600;
 }
 
 .table th {
@@ -41,8 +37,19 @@ table {
 	padding: 0.4rem;
 }
 
-thead {
-	font-weight: 600;
+.table-dice {
+}
+
+.table-career {
+	text-align: center;
+}
+
+.table-rank {
+	text-align: center;
+}
+
+.table-name {
+	text-align: left;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -87,6 +94,15 @@ input[type="number"] {
 	width: 90%;
 }
 
+.header {
+	font-size: 1.25rem;
+	margin-bottom: 0;
+	margin-top: 0.5rem;
+	line-height: 1.2;
+	color: inherit;
+	font-weight: bold;
+}
+
 .noUnderLine, .noUnderLine:hover, .noUnderLine:focus {
 	text-decoration: none;
 }
@@ -94,6 +110,11 @@ input[type="number"] {
 .textSymbols {
 	vertical-align: middle;
 	height: 1.2rem;
+}
+
+.characterImage {
+	max-height: 18rem;
+	object-fit: contain;
 }
 
 .svg {
@@ -110,21 +131,6 @@ input[type="number"] {
 .talentDesc {
 	overflow-y: auto;
 	white-space: pre-line;
-}
-
-.table-dice {
-}
-
-.table-career {
-	text-align: center;
-}
-
-.table-rank {
-	text-align: center;
-}
-
-.table-name {
-	text-align: left;
 }
 
 .row-hide {
@@ -152,16 +158,12 @@ input[type="number"] {
 
 .bg {
 	position: fixed;
+	background-size: contain;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	z-index: -1;
-}
-
-/*CRB Theme*/
-.bg-CRB {
-	background-image: url(../images/CRB/background.png);
 }
 
 .imageBox {
@@ -182,37 +184,6 @@ input[type="number"] {
 	width: 8rem;
 }
 
-.attributeValue {
-	position: absolute;
-	display: inline-flex;
-	font-size: 1.5rem;
-	font-weight: 600;
-	top: 51%;
-	left: 58%;
-	transform: translate(-50%, -50%);
-	flex: unset;
-}
-
-.characteristicValue {
-	position: absolute;
-	font-size: 2.5rem;
-	font-weight: 600;
-	top: 35%;
-	left: 62%;
-	transform: translate(-50%, -50%);
-	flex: unset;
-}
-
-.xpValue {
-	position: absolute;
-	font-size: 2rem;
-	font-weight: 600;
-	top: 45%;
-	left: 60%;
-	transform: translate(-50%, -50%);
-	flex: unset;
-}
-
 .totalXP {
 	position: fixed;
 	bottom: 10px;
@@ -225,6 +196,143 @@ input[type="number"] {
 	bottom: 10px;
 	right: 10px;
 	z-index: 1;
+}
+
+.attributeValue {
+	position: absolute;
+	display: inline-flex;
+	align-items: center;
+	font-size: 1.5rem;
+	top: 55%;
+	left: 57%;
+	transform: translate(-50%, -50%);
+	flex: unset;
+	padding: 0 0;
+	font-weight: bold;
+}
+
+.attributeInput {
+	font-size: 1.2rem;
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	text-align: center;
+}
+
+.characteristicValue {
+	position: absolute;
+	font-size: 2.5rem;
+	top: 39%;
+	left: 62.5%;
+	transform: translate(-50%, -50%);
+	flex: unset;
+	font-weight: bold;
+}
+
+.xpValue {
+	position: absolute;
+	font-size: 2rem;
+	font-weight: bold;
+	top: 45%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+	flex: unset;
+}
+
+/*CRB Theme*/
+.body-CRB {
+	font-family: 'Avenir Next LT Pro', sans-serif !important;
+}
+
+.header-CRB {
+	font-family: 'Bebas Neue', sans-serif !important;
+	font-size: 1.75rem;
+}
+
+.bg-CRB {
+	background-image: url(../images/CRB/background.png);
+}
+
+.attributeValue-CRB-Wounds,
+.attributeValue-CRB-Strain {
+	left: 58%
+}
+
+/*ROT Theme*/
+.bg-ROT {
+	background-image: url(../images/ROT/background.png);
+}
+
+.body-ROT {
+	font-family: 'Adobe Garamond Pro', sans-serif !important;
+}
+
+.header-ROT {
+	font-family: 'Bolton', sans-serif !important;
+	font-size: 1rem;
+}
+
+.xpValue-ROT {
+	top: 36%
+}
+
+.attributeValue-ROT-Wounds,
+.attributeValue-ROT-Soak,
+.attributeValue-ROT-Defense,
+.attributeValue-ROT-Strain {
+	top: 58%
+}
+
+/*SOTB Theme*/
+.bg-SOTB {
+	background: url(../images/SOTB/background.png) center;
+}
+
+.body-SOTB {
+	font-family: 'Avenir Next LT Pro', sans-serif !important;
+}
+
+.header-SOTB {
+	font-family: 'Bebas Neue', sans-serif !important;
+	font-size: 1.75rem;
+}
+
+.characteristicValue-SOTB {
+	top: 36%
+}
+
+.xpValue-SOTB {
+	top: 70%;
+}
+
+.attributeValue-SOTB-Wounds,
+.attributeValue-SOTB-Soak,
+.attributeValue-SOTB-Defense,
+.attributeValue-SOTB-Strain,
+.attributeValue-SOTB-StrainThreshold,
+.attributeValue-SOTB-WoundsThreshold {
+	top: 61%
+}
+
+/*CCC Theme*/
+.bg-CCC {
+	background: url(../images/CCC/background.png) center;
+}
+
+.body-CCC {
+	font-family: 'Charis SIL', sans-serif !important;
+}
+
+.header-CCC {
+	font-family: 'American Captian', sans-serif !important;
+}
+
+.characteristicValue-CCC {
+	top: 36%;
+}
+
+.xpValue-CCC {
+	top: 65%;
 }
 
 @media only screen
@@ -259,15 +367,9 @@ and (max-width: 480px) {
 		color-adjust: exact;
 	}
 
-	h5 {
-		font-size: 1rem;
-		margin-top: 0.25rem;
-		font-weight: 600;
-	}
-
 	body {
-		--orangeFade: rgb(245, 142, 32);
-		--lightblueFade: rgb(181, 224, 232);
+		--orangeFade: var(--orange);
+		--lightblueFade: var(--lightblue);
 	}
 
 	.no-break {
@@ -331,5 +433,35 @@ and (max-width: 480px) {
 	.availableXP {
 		display: inline-block;
 		position: relative;
+	}
+
+	.header-CRB {
+		font-size: 1.2rem;
+	}
+
+	.attributeValue-CRB-Wounds,
+	.attributeValue-CRB-Strain,
+	.attributeValue-CRB-Soak,
+	.attributeValue-CRB-Defense {
+		left: 55%;
+	}
+
+	.xpValue-CCC {
+		top: 54%;
+	}
+
+	.header-SOTB {
+		font-size: 1.2rem;
+	}
+
+	.xpValue-SOTB {
+		font-size: 1.2rem;
+	}
+
+	.attributeValue-SOTB-Wounds,
+	.attributeValue-SOTB-Strain,
+	.attributeValue-SOTB-Soak,
+	.attributeValue-SOTB-Defense {
+		font-size: 1.2rem;
 	}
 }
