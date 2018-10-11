@@ -24,3 +24,4 @@ config.js
 config.secrets.js
 config.secrets.json
 .firebase
+firebase-debug.log
