@@ -1,20 +1,45 @@
+import {firebase} from '@firebase/app'
+import '@firebase/auth'
+import firebaseui from 'firebaseui'
 import React, {Component} from 'react';
-import {Button, ButtonGroup, Container, Row} from 'reactstrap';
-import firebase from '@firebase/app';
-import '@firebase/auth';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import {Container, Row} from 'reactstrap';
+import * as images from '../images';
 import {About} from './index';
 
 export class User extends Component {
 
-	handleClick = () => {
-		const provider = new firebase.auth.GoogleAuthProvider();
-		firebase.auth().signInWithRedirect(provider);
+	uiConfig = {
+		signInFlow: 'popup',
+		autoUpgradeAnonymousUsers: true,
+		callbacks: {
+			signInFailure: error => {
+				console.error(error);
+			},
+			onAuthStateChanged: user => {
+				console.log(user)
+			},
+		},
+		signInOptions: [
+			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+			{
+				provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+				// Invisible reCAPTCHA with image challenge and bottom left badge.
+				recaptchaParameters: {
+					type: 'image',
+					size: 'invisible',
+					badge: 'bottomleft'
+				}
+			}, firebase.auth.EmailAuthProvider.PROVIDER_ID,
+			firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+		],
 	};
 
 	render() {
 		return (
 			<div>
 				<Container className='container-fluid my-4'>
+					<div className={`bg bg-CRB d-print-none`}/>
 					<Row className='justify-content-center'>
 						<h1>The Emporium</h1>
 					</Row>
@@ -22,15 +47,10 @@ export class User extends Component {
 						<h2>Genesys Character Creator</h2>
 					</Row>
 					<Row className='justify-content-center my-4'>
-						<img src={`/images/favicon.png`} alt='' style={{maxHeight: '150px'}}/>
+						<img src={images.CRB.Logo} alt='' style={{maxHeight: '150px'}}/>
 					</Row>
 					<Row className='justify-content-center my-2'>
-						<ButtonGroup>
-							<Button outline color='white' onClick={this.handleClick}>
-								<img src={'/images/png/google-logo.png'} alt='' style={{maxHeight: '20px'}}/>
-							</Button>
-							<Button color='primary' onClick={this.handleClick}>Sign In with Google</Button>
-						</ButtonGroup>
+						<StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
 					</Row>
 					<Row className='justify-content-center'>
 						<About/>

@@ -23,5 +23,11 @@ service cloud.firestore {
     match /users/{userId}/customData/{document=**}  {
     	allow read, write: if selfOrGm(userId);
     }
+    match /vehicle/{document=**}  {
+      allow read, write;
+    }
+    match /userDB/{document=**}  {
+      allow read, write;
+    }
   }
 }
