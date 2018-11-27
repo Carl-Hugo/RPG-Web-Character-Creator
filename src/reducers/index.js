@@ -60,6 +60,7 @@ const allReducers = combineReducers({
 	vehicles: changeState.vehicles,
 	vehicleList: changeState.vehicleList,
 	vehicleType: changeState.vehicleType,
+	vehicleWrite: changeState.vehicleWrite,
 });
 
 export default allReducers;
