@@ -36,6 +36,7 @@ export {Talents} from './Talents';
 export {User} from './User';
 export {XPBoxes} from './XPBoxes';
 export {XPPopup} from './XPPopup';
+export {VehicleSelect} from './VehicleSelect';
 export {ModalDeleteConfirm} from './ModalDeleteConfirm';
 
 
