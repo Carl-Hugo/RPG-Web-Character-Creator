@@ -30,21 +30,21 @@ class SkillComponent extends React.Component {
                 <hr />
                 <Row>
                     {this.dices.filter(dice => dice.category === 'positive').map((dice, index) => (
-                        <Col>
+                        <Col key={dice.code}>
                             <AdditionalDice diceCode={dice.code} />
                         </Col>
                     ))}
                 </Row>
                 <Row>
                     {this.dices.filter(dice => dice.category === 'negative').map((dice, index) => (
-                        <Col>
+                        <Col key={dice.code}>
                             <AdditionalDice diceCode={dice.code} />
                         </Col>
                     ))}
                 </Row>
                 <Row>
                     {this.dices.filter(dice => dice.category === 'force').map((dice, index) => (
-                        <Col>
+                        <Col key={dice.code}>
                             <AdditionalDice diceCode={dice.code} />
                         </Col>
                     ))}
