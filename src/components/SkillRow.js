@@ -5,7 +5,7 @@ import { changeData } from '../actions';
 import { archetypeSkillRank, careerCheck, skillDice, skillRanks } from '../selectors';
 import { Description } from './index';
 import { bot } from '../bot/index';
-import { Button } from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 
 class SkillRowComponent extends React.Component {
     handleRankChange = event => {
@@ -67,8 +67,8 @@ class SkillRowComponent extends React.Component {
 					{!!careerCheck[skillKey] ? '✓' : ''}
 				</td>
 				<td className='table-rank'>
-					<Input type='select' bsSize='sm' disabled={!archetype || !career} value={skillRanks[skillKey]}
-						   onChange={this.handleRankChange} className='p-0 m-0'>
+                    <Input type='select' bsSize='sm' disabled={!archetype || !career} value={skillRanks[skillKey]}
+                            onChange={this.handleRankChange} className='p-0 m-0'>
 						{ranks.map((key) => <option key={key} value={key}>{key}</option>)}
 					</Input>
 				</td>
