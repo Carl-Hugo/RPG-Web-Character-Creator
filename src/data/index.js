@@ -20,6 +20,8 @@ import {default as weaponsROT} from './weapons/ROT.json';
 import {default as skillsCRB} from './skills.json';
 import {default as skillsSW} from './skills-StarWars.json';
 
+import {default as defaultSettings} from './settings.json';
+
 export const archetypes = merge.all([archetypesCRB, archetypesROT]);
 export const archetypeTalents = merge.all([archetypeTalentsCRB, archetypeTalentsROT]);
 export const armor = merge.all([armorCRB, armorROT]);
@@ -40,7 +42,6 @@ export {dataTypes, customDataTypes, vehicleDataTypes, chars, diceNames, modifiab
 //
 // Patch the Star Wars setting
 //
-import {default as defaultSettings} from './settings.json';
 const StarWarsName = "Star Wars";
 defaultSettings.starWars = StarWarsName;
 export const settings = defaultSettings;

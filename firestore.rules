@@ -24,10 +24,10 @@ service cloud.firestore {
     	allow read, write: if selfOrGm(userId);
     }
     match /vehicleDB/{document=**}  {
-      allow read, write: if selfOrGm(userId);
+      allow read, write;
     }
     match /userDB/{document=**}  {
-      allow read, write: if selfOrGm(userId);
+      allow read, write;
     }
   }
 }
