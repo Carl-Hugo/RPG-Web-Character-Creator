@@ -39,6 +39,7 @@ export const theme = 'CRB';
 export const themes = {CRB: 'Core Rule Book', ROT: 'Realms of Terrinoth', SOTB: 'Shadow of the Beanstalk'};
 export const vehicle = '';
 export const vehicleType = '';
+export const vehicleNotes = '';
 export const vehicleWrite = false;
 
 export const printContent = (
