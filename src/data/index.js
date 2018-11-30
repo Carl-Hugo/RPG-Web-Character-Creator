@@ -1,25 +1,24 @@
 import merge from 'deepmerge';
-import * as archetypesCRB from './archetypes/CRB.json';
-import * as archetypesROT from './archetypes/ROT.json';
-import * as archetypeTalentsCRB from './archetypeTalents/CRB.json';
-import * as archetypeTalentsROT from './archetypeTalents/ROT.json';
-import * as armorCRB from './armor/CRB.json';
-import * as armorROT from './armor/ROT.json';
-import * as careersCRB from './careers/CRB.json';
-import * as careersROT from './careers/ROT.json';
-import * as craftsmanshipCRB from './craftsmanship/CRB.json';
-import * as craftsmanshipROT from './craftsmanship/ROT.json';
-import * as gearCRB from './gear/CRB.json';
-import * as gearROT from './gear/ROT.json';
-import * as talentsCRB from './talents/CRB.json';
-import * as talentsROT from './talents/ROT.json';
-import * as vehiclesCRB from './vehicles/CRB.json';
-import * as vehiclesROT from './vehicles/ROT.json';
-import * as weaponsCRB from './weapons/CRB.json';
-import * as weaponsROT from './weapons/ROT.json';
-import * as skillsCRB from './skills.json';
-import * as skillsSW from './skills-StarWars.json';
-import * as defaultSettings from './settings.json';
+import {default as archetypesCRB} from './archetypes/CRB.json';
+import {default as archetypesROT} from './archetypes/ROT.json';
+import {default as archetypeTalentsCRB} from './archetypeTalents/CRB.json';
+import {default as archetypeTalentsROT} from './archetypeTalents/ROT.json';
+import {default as armorCRB} from './armor/CRB.json';
+import {default as armorROT} from './armor/ROT.json';
+import {default as careersCRB} from './careers/CRB.json';
+import {default as careersROT} from './careers/ROT.json';
+import {default as craftsmanshipCRB} from './craftsmanship/CRB.json';
+import {default as craftsmanshipROT} from './craftsmanship/ROT.json';
+import {default as gearCRB} from './gear/CRB.json';
+import {default as gearROT} from './gear/ROT.json';
+import {default as talentsCRB} from './talents/CRB.json';
+import {default as talentsROT} from './talents/ROT.json';
+import {default as vehiclesCRB} from './vehicles/CRB.json';
+import {default as vehiclesROT} from './vehicles/ROT.json';
+import {default as weaponsCRB} from './weapons/CRB.json';
+import {default as weaponsROT} from './weapons/ROT.json';
+import {default as skillsCRB} from './skills.json';
+import {default as skillsSW} from './skills-StarWars.json';
 
 export const archetypes = merge.all([archetypesCRB, archetypesROT]);
 export const archetypeTalents = merge.all([archetypeTalentsCRB, archetypeTalentsROT]);
@@ -41,6 +40,7 @@ export {dataTypes, customDataTypes, vehicleDataTypes, chars, diceNames, modifiab
 //
 // Patch the Star Wars setting
 //
+import {default as defaultSettings} from './settings.json';
 const StarWarsName = "Star Wars";
 defaultSettings.starWars = StarWarsName;
 export const settings = defaultSettings;
