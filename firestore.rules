@@ -4,24 +4,25 @@ service cloud.firestore {
     // document. The wildcard expression {userId} makes the userId variable
     // available in rules.
     
-    function selfOrGm(userId) {
-      return isSelf(userId) || isGm(userId);
+    function selfOrAllowed(userId) {
+      return isSelf(userId) || isAllowed(userId);
     }
     
     function isSelf(userId){
     	return request.auth.uid != null && request.auth.uid == userId;
     }
     
-    function isGm(userId){
+    function isAllowed(userId){
     	return request.auth.uid != null && 
-      	get(/databases/$(database)/documents/users/$(userId)).data.gm == request.auth.uid;
+        request.auth.uid in get(/databases/$(database)/documents/users/$(userId)).data.allowedUsers
+      ;
     }
     
     match /users/{userId}/data/{document=**}  {
-    	allow read, write: if selfOrGm(userId);
+    	allow read, write: if selfOrAllowed(userId);
     }
     match /users/{userId}/customData/{document=**}  {
-    	allow read, write: if selfOrGm(userId);
+    	allow read, write: if selfOrAllowed(userId);
     }
     match /vehicleDB/{document=**}  {
       allow read, write;
