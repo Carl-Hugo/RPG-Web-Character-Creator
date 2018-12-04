@@ -1,3 +1,21 @@
+1.5.9
+    -detach listeners on logout
+    -username display on signout button
+
+1.5.8
+    -fixed soak, WT, and ST for custom gear
+
+1.5.7
+    -new bitchin' icon!
+
+1.5.6
+    -PWA!
+    -fixed motivation block on mobile
+
+1.5.5
+    -updated firestore rules
+    -fixed import/export page a bit
+
 1.5.4
     -updated import for JSON objects
     -fixed screw implants again
