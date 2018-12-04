@@ -13,12 +13,8 @@ export class User extends Component {
 		signInFlow: 'popup',
 		autoUpgradeAnonymousUsers: true,
 		callbacks: {
-			signInFailure: error => {
-				console.error(error);
-			},
-			onAuthStateChanged: user => {
-				console.log(user)
-			},
+			signInFailure: console.error,
+			onAuthStateChanged: console.log,
 		},
 		signInOptions: [
 			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -41,7 +37,7 @@ export class User extends Component {
 				<Container className='container-fluid my-4'>
 					<div className={`bg bg-CRB d-print-none`}/>
 					<Row className='justify-content-center'>
-						<h1>The Emporium</h1>
+						<h1>Genesys Emporium</h1>
 					</Row>
 					<Row className='justify-content-center'>
 						<h2>Genesys Character Creator</h2>

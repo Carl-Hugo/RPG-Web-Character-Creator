@@ -14,21 +14,34 @@ service cloud.firestore {
     
     function isAllowed(userId){
     	return request.auth.uid != null && 
-        request.auth.uid in get(/databases/$(database)/documents/users/$(userId)).data.allowedUsers
-      ;
+      	request.auth.uid in get(/databases/$(database)/documents/users/$(userId)).data.allowedUsers
+        ;
     }
     
     match /users/{userId}/data/{document=**}  {
     	allow read, write: if selfOrAllowed(userId);
     }
+
     match /users/{userId}/customData/{document=**}  {
     	allow read, write: if selfOrAllowed(userId);
     }
-    match /vehicleDB/{document=**}  {
-      allow read, write;
+
+    match /vehicleDB/{document}  {
+     function vehicleData() {
+            return get(/databases/$(database)/documents/vehicleDB/$(document)).data
+        }
+      allow create: if request.auth.uid != null;
+      allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid in vehicleData().write;
+
+      match /data/{type} {
+      	allow read: if request.auth.uid != null;
+        allow write: if request.auth.uid in vehicleData().write;
+  		}
     }
-    match /userDB/{document=**}  {
-      allow read, write;
+
+    match /userDB/{document}  {
+      allow write: if request.resource.data.uid == request.auth.uid;
     }
   }
 }
