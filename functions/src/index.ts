@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import { Client, TextChannel } from 'discord.js';
+import { Client, TextChannel, Message } from 'discord.js';
 import { config } from './config.secrets';
 
 // // Start writing Firebase Functions
@@ -12,22 +12,9 @@ import { config } from './config.secrets';
 export const executeRollCommand = functions.firestore.document('botmessages/{userId}/rolls/{autoId}').onCreate((snap, context) => {
     const bot = new MyDiscordBot();
     const data = snap.data() as RollCommand;
-    return snap.ref
-        .set(
-            {
-                triggerState: { intercepted: true }
-            },
-            { merge: true }
-        )
-        .then(() => bot.rollSkill(data))
-        .then(() =>
-            snap.ref.set(
-                {
-                    triggerState: { completed: true }
-                },
-                { merge: true }
-            )
-        )
+    return bot
+        .rollSkill(data)
+        .then(() => snap.ref.delete())
         .catch(handleError);
 });
 
@@ -38,15 +25,8 @@ function handleError(reason: any) {
 class MyDiscordBot {
     private client: Client;
 
-    // private sendMessage(userId: string, channelId: any, message: string) {
-    //     this.enforceClient().then(token => {
-    //         const channel = this.client.channels.get(channelId) as TextChannel;
-    //         channel.send('<@' + userId + '> ' + message);
-    //     });
-    // }
-
-    public rollSkill(rollCommand: RollCommand) {
-        this.enforceClient().then(() => {
+    public rollSkill(rollCommand: RollCommand): Promise<Message | Message[]> {
+        return this.enforceClient().then(() => {
             const channel = this.client.channels.get(rollCommand.discord.channelId) as TextChannel;
             const dicesToRoll = computeDices(rollCommand.dices, rollCommand.additionalDices);
             let rollMsg = `**${rollCommand.characterName}** rolls **${rollCommand.skill}`;
@@ -54,9 +34,7 @@ class MyDiscordBot {
                 rollMsg += ` (${rollCommand.shortAttribute})`;
             }
             rollMsg += '**';
-            channel.send(`<@${rollCommand.discord.userId}>'s ${rollMsg}:`);
-            //channel.send(`!!roll "${rollMsg}" ${dicesToRoll}`);
-            channel.send(`!!roll ${dicesToRoll}`);
+            return channel.send(`<@${rollCommand.discord.userId}>'s ${rollMsg}:`).then(() => channel.send(`!!roll ${dicesToRoll}`));
         });
     }
     private enforceClient(): Promise<string> {

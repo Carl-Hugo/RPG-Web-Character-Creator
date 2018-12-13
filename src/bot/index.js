@@ -1,9 +1,6 @@
-//import { Client } from 'discord.js';
-//import { config } from './config.secrets';
 import firebase from '@firebase/app';
 
 class MyDiscordBot {
-    //client = null;
     user = null;
     rollSkill = function(userId, channelId, characterName, skill, shortAttribute, dices, additionalDices) {
         this.enforceCurrentUser().then(() => {
@@ -33,16 +30,11 @@ class MyDiscordBot {
                     }
                 })
                 .then(function() {
-                    let rollMsg = `**${characterName}** rolls **${skill}`;
-                    if (shortAttribute !== false) {
-                        rollMsg += ` (${shortAttribute})`;
-                    }
-                    rollMsg += '**';
-        
-                    console.log(`Bot command ${botCommand} set.`);
+                    console.log(`Bot command sent.`);
                 })
                 .catch(function(error) {
-                    console.error(`Error setting bot command ${botCommand}: `, error);
+                    console.error(`Error setting bot command: `, error);
+                    alert(`An error occured while sending the bot command.`);
                 });
         });
     };
