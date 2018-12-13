@@ -43,5 +43,9 @@ service cloud.firestore {
     match /userDB/{document}  {
       allow write: if request.resource.data.uid == request.auth.uid;
     }
+
+    match /botmessages/{userId}/rolls/{document=**}  {
+    	allow read, write: if selfOrAllowed(userId);
+    }
   }
 }
