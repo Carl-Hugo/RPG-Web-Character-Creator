@@ -8,7 +8,7 @@ import * as functions from 'firebase-functions';
 // });
 
 export const executeRollCommand = functions.firestore.document('botmessages/{userId}/rolls/{autoId}').onCreate((snap, context) => {
-    snap.ref.set(
+    return snap.ref.set(
         {
             intercepted: true
         },
