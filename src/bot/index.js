@@ -1,32 +1,59 @@
-import { Client } from 'discord.js';
-import { config } from './config.secrets';
+//import { Client } from 'discord.js';
+//import { config } from './config.secrets';
+import firebase from '@firebase/app';
 
 class MyDiscordBot {
-    client = null;
-    sendMessage = function(userId, channelId, message) {
-        this.enforceClient().then(s => {
-            const channel = this.client.channels.get(channelId);
-            channel.send('<@' + userId + '> ' + message);
-        });
-    };
+    //client = null;
+    user = null;
     rollSkill = function(userId, channelId, characterName, skill, shortAttribute, dices, additionalDices) {
-        this.enforceClient().then(() => {
-            const channel = this.client.channels.get(channelId);
+        this.enforceCurrentUser().then(() => {
             const dicesToRoll = computeDices(dices, additionalDices);
-            let rollMsg = `**${characterName}** rolls **${skill}`;
-            if (shortAttribute !== false) {
-                rollMsg += ` (${shortAttribute})`;
-            }
-            rollMsg += '**';
-            channel.send(`<@${userId}>'s ${rollMsg}:`);
-            //channel.send(`!!roll "${rollMsg}" ${dicesToRoll}`);
-            channel.send(`!!roll ${dicesToRoll}`);
+            const createdAt = new Date().toDateString();
+            const db = firebase.firestore();
+            const botCommand = `!!roll ${dicesToRoll}`;
+            db.collection(`botmessages/${this.user.uid}/rolls`)
+                .doc()
+                .set({
+                    createdAt,
+                    discord: {
+                        userId,
+                        channelId,
+                    },
+                    characterName,
+                    skill,
+                    shortAttribute,
+                    dices,
+                    additionalDices,
+                    dicesToRoll,
+                    botCommand,
+                    userInfo: {
+                        displayName: this.user.displayName,
+                        email: this.user.email,
+                        uid: this.user.uid,
+                    }
+                })
+                .then(function() {
+                    let rollMsg = `**${characterName}** rolls **${skill}`;
+                    if (shortAttribute !== false) {
+                        rollMsg += ` (${shortAttribute})`;
+                    }
+                    rollMsg += '**';
+        
+                    console.log(`Bot command ${botCommand} set.`);
+                })
+                .catch(function(error) {
+                    console.error(`Error setting bot command ${botCommand}: `, error);
+                });
         });
     };
-    enforceClient = function() {
-        if (this.client) return Promise.resolve();
-        this.client = new Client();
-        return this.client.login(config.auth.token);
+    enforceCurrentUser = function() {
+        if (this.user == null){
+            this.user = firebase.auth().currentUser;
+        }
+        if (this.user) {
+            return Promise.resolve();
+        }
+        return Promise.reject("User not authneticated.");
     };
 }
 
