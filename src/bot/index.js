@@ -8,7 +8,7 @@ class MyDiscordBot {
     rollSkill = function(userId, channelId, characterName, skill, shortAttribute, dices, additionalDices) {
         this.enforceCurrentUser().then(() => {
             const dicesToRoll = computeDices(dices, additionalDices);
-            const createdAt = new Date().toDateString();
+            const createdAt = new Date().toUTCString();
             const db = firebase.firestore();
             const botCommand = `!!roll ${dicesToRoll}`;
             db.collection(`botmessages/${this.user.uid}/rolls`)
