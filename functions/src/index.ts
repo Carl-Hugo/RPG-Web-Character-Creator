@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import { Client, TextChannel } from 'discord.js';
-import { config } from '../config.secrets';
+import { config } from './config.secrets';
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
