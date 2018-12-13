@@ -14,7 +14,7 @@ class AppComponent extends React.Component {
 	state = {loading: true};
 
 	componentWillMount() {
-		ReactGA.initialize(process.env.REACT_APP_gaID);
+		//ReactGA.initialize(process.env.REACT_APP_gaID);
 		ReactGA.pageview(window.location.pathname);
 		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
@@ -24,9 +24,8 @@ class AppComponent extends React.Component {
 				} else {
 					this.props.changeUser(user.uid);
 				}
-				this.setState({loading: false});
 			}
-			else this.setState({loading: false});
+			this.setState({loading: false});
 		});
 	}
 	getCustomUserId() {

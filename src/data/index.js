@@ -17,6 +17,10 @@ import {default as vehiclesCRB} from './vehicles/CRB.json';
 import {default as vehiclesROT} from './vehicles/ROT.json';
 import {default as weaponsCRB} from './weapons/CRB.json';
 import {default as weaponsROT} from './weapons/ROT.json';
+import {default as skillsCRB} from './skills.json';
+import {default as skillsSW} from './skills-StarWars.json';
+
+import {default as defaultSettings} from './settings.json';
 
 export const archetypes = merge.all([archetypesCRB, archetypesROT]);
 export const archetypeTalents = merge.all([archetypeTalentsCRB, archetypeTalentsROT]);
@@ -31,6 +35,32 @@ export const vehicles = merge.all([vehiclesCRB, vehiclesROT]);
 
 export {default as motivations} from './motivations.json';
 export {default as qualities} from './qualities.json';
-export {default as skills} from './skills.json';
-export {default as settings} from './settings.json';
+// export {default as skills} from './skills.json';
+// export {default as settings} from './settings.json';
 export {dataTypes, customDataTypes, vehicleDataTypes, chars, diceNames, modifiableAttributes} from './lists';
+
+//
+// Patch the Star Wars setting
+//
+const StarWarsName = "Star Wars";
+defaultSettings.starWars = StarWarsName;
+export const settings = defaultSettings;
+
+// Patch skills to support the Star Wars setting
+export const skills = merge.all([skillsCRB, skillsSW]);
+delete skills.Knowledge; // Delete Knowledge
+addToStarWars(["Astrocartography", "Computers", "Driving", "Gunnery", "Melee", "Piloting", "RangedHeavy", "RangedLight"], skills);
+
+// Patch Archetypes
+addToStarWars(["Bioroid", "Clone", "Robot", "Vanguard", "AnimalisticAlien"], archetypes);
+
+// Patch Careers
+addToStarWars(["Hacker", "FighterPilot", "StarshipCaptain"], careers);
+
+// Patcher
+function addToStarWars(items, obj){
+    for (let index = 0; index < items.length; index++) {
+        const key = items[index];
+        obj[key].setting.push(StarWarsName);
+    }
+}

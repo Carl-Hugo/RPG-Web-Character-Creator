@@ -23,4 +23,6 @@ config.js
 *.iml
 config.secrets.js
 config.secrets.json
+config.secrets.ts
 .firebase
+firebase-debug.log

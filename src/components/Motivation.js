@@ -13,7 +13,7 @@ class MotivationComponent extends React.Component {
 				</Row>
 				<hr/>
 				<Row className='justify-content-center'>
-					{['Strength', 'Flaw', 'Desire', 'Fear'].map(type =>
+					{['Strength', 'Flaw', 'Desire', 'Fear', 'Duty', 'Duty2'].map(type =>
 						<MotivationBlock key={type} type={type}/>
 					)}
 				</Row>
