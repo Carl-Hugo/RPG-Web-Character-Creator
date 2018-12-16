@@ -11,11 +11,15 @@
     },
     "main": "lib/index.js",
     "dependencies": {
+        "discord.js": "^11.3.2",
         "firebase-admin": "~6.0.0",
         "firebase-functions": "^2.1.0",
-        "discord.js": "^11.3.2"
+        "request": "^2.88.0",
+        "request-promise": "^4.2.2"
     },
     "devDependencies": {
+        "@types/node": "^10.12.15",
+        "@types/request-promise": "^4.1.42",
         "tslint": "~5.8.0",
         "typescript": "~2.8.3"
     },
