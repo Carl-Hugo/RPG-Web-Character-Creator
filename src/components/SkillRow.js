@@ -91,14 +91,36 @@ class SkillRowComponent extends React.Component {
 	}
 }
 
-const tags = [{ full: '[yellow]', abbr: 'y' }, { full: '[green]', abbr: 'g' }, { full: ' ', abbr: '' }];
+const tags = [
+    // Dices
+    { full: ['[yellow]', '[proficiency]'], abbr: 'y' }, 
+    { full: ['[green]', '[ability]'], abbr: 'g' }, 
+    { full: ['[blue]', '[boost]'], abbr: 'b' }, 
+    { full: ['[black]', '[setback]'], abbr: 'k' }, 
+    { full: ['[purple]', '[difficulty]'], abbr: 'p' }, 
+    { full: ['[red]', '[challenge]'], abbr: 'r' }, 
+    { full: ['[white]'], abbr: 'w' }, 
+    // Symbols
+    { full: ['[advantage]', '[adv]'], abbr: 'v' }, 
+    { full: ['[success]', '[suc]'], abbr: '*' }, 
+    { full: ['[triumph]', '[tri]'], abbr: '!' }, 
+    { full: ['[threat]', '[thr]'], abbr: 't' }, 
+    { full: ['[despair]', '[des]'], abbr: '$' }, 
+    { full: ['[failure]', '[fail]'], abbr: '-' }, 
+    { full: ['[rmsetback]', '[rmblack]'], abbr: '+' }, 
+    { full: [' '], abbr: '' }
+];
 function diceToBotRoll(input) {
     let result = input;
     tags.forEach(tag => {
-        do {
-            result = result.replace(tag.full, tag.abbr);
-        } while (result.indexOf(tag.full) > -1);
+            for (let i = 0; i < tag.full.length; i++) {
+                const full = tag.full[i];
+                do {
+                    result = result.replace(full, tag.abbr);
+                } while (result.indexOf(full) > -1);
+            }
     });
+    console.log(`diceToBotRoll: ${input} => ${result}`)
     return result;
 }
 
